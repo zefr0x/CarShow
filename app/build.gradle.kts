@@ -1,6 +1,14 @@
+import org.gradle.plugins.ide.eclipse.model.Classpath
+import org.gradle.plugins.ide.eclipse.model.SourceFolder
+
+version = "0.1.0"
+layout.buildDirectory = file("build/gradle")
+
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
+    java
     application
+    eclipse
 }
 
 repositories {
@@ -21,13 +29,30 @@ dependencies {
 // Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
 application {
     // Define the main class for the application.
     mainClass.set("carshow.App")
+}
+
+eclipse {
+    classpath {
+        defaultOutputDir = file("build/eclipse")
+        file {
+            whenMerged(
+                    Action<Classpath> { ->
+                        entries.filter { it.kind == "src" }.forEach {
+                            if (it is SourceFolder) {
+                                it.output = it.output.replace("bin/", "build/eclipse/")
+                            }
+                        }
+                    }
+            )
+        }
+    }
 }
 
 tasks.withType<JavaExec>() {

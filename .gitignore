@@ -35,3 +35,6 @@ gradle-app.setting
 
 # Ignore Mac OS files
 .DS_Store
+
+# Ignore sqlite files
+*.sqlite3

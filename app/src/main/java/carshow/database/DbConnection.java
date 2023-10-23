@@ -11,9 +11,13 @@ public class DbConnection {
     private ConnectionSource connectionSource;
 
     private Dao<AdminAccount, Integer> adminAccountDao;
+    private Dao<SalesManAccount, Integer> salesManAccountDao;
     private Dao<CostomerAccount, Integer> costomerAccountDao;
+    private Dao<ProductTypesWrapper, Integer> productDao;
     private Dao<Car, Integer> carDao;
-    private Dao<CarSale, Integer> carSaleDao;
+    private Dao<Carvan, Integer> carvanDao;
+    private Dao<Bus, Integer> busDao;
+    private Dao<Sale, Integer> saleDao;
 
     public DbConnection() throws Exception {
         this(DATABASE_URL);
@@ -27,15 +31,23 @@ public class DbConnection {
 
     private void setupDb(ConnectionSource connectionSource) throws Exception {
         this.adminAccountDao = DaoManager.createDao(connectionSource, AdminAccount.class);
+        this.salesManAccountDao = DaoManager.createDao(connectionSource, SalesManAccount.class);
         this.costomerAccountDao = DaoManager.createDao(connectionSource, CostomerAccount.class);
+        this.productDao = DaoManager.createDao(connectionSource, ProductTypesWrapper.class);
         this.carDao = DaoManager.createDao(connectionSource, Car.class);
-        this.carSaleDao = DaoManager.createDao(connectionSource, CarSale.class);
+        this.carvanDao = DaoManager.createDao(connectionSource, Carvan.class);
+        this.busDao = DaoManager.createDao(connectionSource, Bus.class);
+        this.saleDao = DaoManager.createDao(connectionSource, Sale.class);
 
         // Create tables
         TableUtils.createTableIfNotExists(connectionSource, AdminAccount.class);
+        TableUtils.createTableIfNotExists(connectionSource, SalesManAccount.class);
         TableUtils.createTableIfNotExists(connectionSource, CostomerAccount.class);
+        TableUtils.createTableIfNotExists(connectionSource, ProductTypesWrapper.class);
         TableUtils.createTableIfNotExists(connectionSource, Car.class);
-        TableUtils.createTableIfNotExists(connectionSource, CarSale.class);
+        TableUtils.createTableIfNotExists(connectionSource, Carvan.class);
+        TableUtils.createTableIfNotExists(connectionSource, Bus.class);
+        TableUtils.createTableIfNotExists(connectionSource, Sale.class);
     }
 
     public void closeDb() throws Exception {

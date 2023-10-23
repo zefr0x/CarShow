@@ -66,6 +66,21 @@ class AdminAccount extends UserAccount {
     // TODO: Implement admin specific metionds.
 }
 
+@DatabaseTable(tableName = "sales_men")
+class SalesManAccount extends UserAccount {
+    // TODO: Define sales man specific parameters.
+
+    SalesManAccount() {
+        super("admin", "password");
+    }
+
+    SalesManAccount(String userName, String password) {
+        super(userName, password);
+    }
+
+    // TODO: Implement sales man specific metionds.
+}
+
 @DatabaseTable(tableName = "costomers")
 class CostomerAccount extends UserAccount {
     // TODO: Define user specific parameters.

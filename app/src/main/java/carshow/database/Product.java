@@ -41,16 +41,31 @@ class Product {
 
     @DatabaseField(columnName = PRODUCT_NAME_FIELD, canBeNull = false)
     private String productName;
-
-    // TODO: Define product parameters.
+    private double price;
+    private int numAvail; // number of available products/cars
 
     Product(String productName) {
         setProductName(productName);
     }
 
     public void setProductName(String productName) {
-        // TODO: Apply restrictions on names.
-        this.productName = productName;
+        if (!productName.contains("!") && !productName.contains("@")) {
+            this.productName = productName;
+        } else {
+            throw new IllegalArgumentException("Product name cannot contain '!' or '@'.");
+        }
+    }
+
+    public int getNumAvail() {
+        return this.numAvail;
+    }
+
+    public void setNumAvail(int numAvail) {
+        if (numAvail >= 0) {
+            this.numAvail = numAvail;
+        } else {
+            throw new IllegalArgumentException("Number of available products cannot be less than 0");
+        }
     }
 
     public int getId() {
@@ -61,21 +76,88 @@ class Product {
         return this.productName;
     }
 
-    // TODO: Implement product methods.
+    public double getPrice() {
+        return this.price;
+    }
+
+    public void setPrice(double price) {
+        if (price >= 0) {
+            this.price = price;
+        } else {
+            throw new IllegalArgumentException("Price cannot be negative.");
+        }
+    }
+
+    public void applyDiscount(double discountAmount) {
+        double discountPercentage = discountAmount / 100;
+        double discountedPrice = getPrice() - (getPrice() * discountPercentage);
+        setPrice(discountedPrice);
+    }
 }
 
 class Vehicle extends Product {
+    private int year;
+    private String model;
+    private String VIN;
+    private String color;
+    private String manufacturer;
+
     Vehicle() {
-        this("");
+        this("", 0, "", "", "", 0, "", "", "", "", 0);
     }
 
-    Vehicle(String vehicleName) {
-        super(vehicleName);
+    Vehicle(String productName, double price, String vehicleName, int year, String model, String VIN, String color, String manufacturer, int numAvail) {
+        super(productName);
+        setVehicleName(vehicleName);
+        setYear(year);
+        setModel(model);
+        setVIN(VIN);
+        setColor(color);
+        setManufacturer(manufacturer);
+        setPrice(price);
+        setNumAvail(numAvail);
     }
 
-    // TODO: Implemnet and define vehicle specific methods and parameters.
+    public String getColor() {
+        return this.color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getManufacturer() {
+        return this.manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public int getYear() {
+        return this.year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public String getModel() {
+        return this.model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getVIN() {
+        return this.VIN;
+    }
+
+    public void setVIN(String VIN) {
+        this.VIN = VIN;
+    }
 }
-
 @DatabaseTable(tableName = "cars")
 class Car extends Vehicle {
     Car() {

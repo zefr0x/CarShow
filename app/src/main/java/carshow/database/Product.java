@@ -35,34 +35,58 @@ class ProductTypesWrapper {
 class Product {
     // Table fields names
     public static final String PRODUCT_NAME_FIELD = "product_name";
+    public static final String PRICE_FIELD = "price";
+    public static final String AVAILABLE_COUNT_FIELD = "product_name";
 
     @DatabaseField(generatedId = true)
     private int id;
 
     @DatabaseField(columnName = PRODUCT_NAME_FIELD, canBeNull = false)
     private String productName;
-    private double price;
-    private int numAvail; // number of available products/cars
 
-    Product(String productName) {
+    @DatabaseField(columnName = PRICE_FIELD, canBeNull = false)
+    private double price;
+
+    @DatabaseField(columnName = AVAILABLE_COUNT_FIELD, canBeNull = false)
+    private int availableCount; // number of available products
+
+    Product(String productName, double productPrice, int productAvailableCount) {
         setProductName(productName);
+        setPrice(productPrice);
+        setAvailableCount(productAvailableCount);
     }
 
     public void setProductName(String productName) {
-        if (!productName.contains("!") && !productName.contains("@")) {
+        if (!(productName.contains("!") || productName.contains("@"))) {
             this.productName = productName;
         } else {
             throw new IllegalArgumentException("Product name cannot contain '!' or '@'.");
         }
     }
 
-    public int getNumAvail() {
-        return this.numAvail;
+    public void setPrice(double price) {
+        if (price >= 0) {
+            this.price = price;
+        } else {
+            throw new IllegalArgumentException("Price cannot be negative.");
+        }
     }
 
-    public void setNumAvail(int numAvail) {
-        if (numAvail >= 0) {
-            this.numAvail = numAvail;
+    public void setAvailableCount(int availableCount) {
+        if (availableCount >= 0) {
+            this.availableCount = availableCount;
+        } else {
+            throw new IllegalArgumentException("Number of available products cannot be less than 0");
+        }
+    }
+
+    public void incrementAvailableCount() {
+            this.availableCount++;
+    }
+
+    public void decrementAvailableCount() {
+        if (this.availableCount > 0) {
+            this.availableCount--;
         } else {
             throw new IllegalArgumentException("Number of available products cannot be less than 0");
         }
@@ -80,54 +104,69 @@ class Product {
         return this.price;
     }
 
-    public void setPrice(double price) {
-        if (price >= 0) {
-            this.price = price;
-        } else {
-            throw new IllegalArgumentException("Price cannot be negative.");
-        }
+    public int getAvailableCount() {
+        return this.availableCount;
     }
 
-    public void applyDiscount(double discountAmount) {
-        double discountPercentage = discountAmount / 100;
-        double discountedPrice = getPrice() - (getPrice() * discountPercentage);
-        setPrice(discountedPrice);
+    public void applyDiscount(double discountPercentage) {
+        if (discountPercentage <= 100 || discountPercentage >= 0) {
+            this.price = this.price * (100 - discountPercentage);
+        } else {
+            throw new IllegalArgumentException("Discount percentage can only be between 0 and 100");
+        }
     }
 }
 
 class Vehicle extends Product {
+    public static final String YEAR_FIELD = "year";
+    public static final String MODEL_FIELD = "model";
+    public static final String VIN_FIELD = "VIN";
+    public static final String COLOR_FIELD = "color";
+    public static final String MANUFACTURER_FIELD = "manufacturer";
+
+    @DatabaseField(columnName = YEAR_FIELD, canBeNull = false)
     private int year;
+
+    @DatabaseField(columnName = MODEL_FIELD, canBeNull = false)
     private String model;
-    private String VIN;
+
+    @DatabaseField(columnName = VIN_FIELD, canBeNull = false)
+    private String VehicleIdentificationNumber;
+
+    @DatabaseField(columnName = COLOR_FIELD, canBeNull = false)
     private String color;
+
+    @DatabaseField(columnName = MANUFACTURER_FIELD, canBeNull = false)
     private String manufacturer;
 
     Vehicle() {
-        this("", 0, "", "", "", 0, "", "", "", "", 0);
+        this("", 0, 0, 0, "", "", "", "");
     }
 
-    Vehicle(String productName, double price, String vehicleName, int year, String model, String VIN, String color, String manufacturer, int numAvail) {
-        super(productName);
-        setVehicleName(vehicleName);
+    Vehicle(String vehicleName, double price, int availableCount, int year, String model, String vehicleId,
+            String color, String manufacturer) {
+        super(vehicleName, price, availableCount);
         setYear(year);
         setModel(model);
-        setVIN(VIN);
+        setVehicleIdentificationNumber(vehicleId);
         setColor(color);
         setManufacturer(manufacturer);
-        setPrice(price);
-        setNumAvail(numAvail);
     }
 
-    public String getColor() {
-        return this.color;
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public void setVehicleIdentificationNumber(String VehicleId) {
+        this.VehicleIdentificationNumber = VehicleId;
     }
 
     public void setColor(String color) {
         this.color = color;
-    }
-
-    public String getManufacturer() {
-        return this.manufacturer;
     }
 
     public void setManufacturer(String manufacturer) {
@@ -138,34 +177,32 @@ class Vehicle extends Product {
         return this.year;
     }
 
-    public void setYear(int year) {
-        this.year = year;
-    }
-
     public String getModel() {
         return this.model;
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    public String getVehicleIdentificationNumber() {
+        return this.VehicleIdentificationNumber;
     }
 
-    public String getVIN() {
-        return this.VIN;
+    public String getColor() {
+        return this.color;
     }
 
-    public void setVIN(String VIN) {
-        this.VIN = VIN;
+    public String getManufacturer() {
+        return this.manufacturer;
     }
 }
+
 @DatabaseTable(tableName = "cars")
 class Car extends Vehicle {
     Car() {
-        this("");
+        this("", 0.0, 0, 0, "", "", "", "");
     }
 
-    Car(String carName) {
-        super(carName);
+    Car(String carName, double price, int availableCount, int year, String model, String vehicleId,
+            String color, String manufacturer) {
+        super(carName, price, availableCount, year, model, vehicleId, color, manufacturer);
     }
 
     // TODO: Implemnet and define car specific methods and parameters.
@@ -174,11 +211,12 @@ class Car extends Vehicle {
 @DatabaseTable(tableName = "carvans")
 class Carvan extends Vehicle {
     Carvan() {
-        this("");
+        this("", 0.0, 0, 0, "", "", "", "");
     }
 
-    Carvan(String carvanName) {
-        super(carvanName);
+    Carvan(String carvanName, double price, int availableCount, int year, String model, String vehicleId,
+            String color, String manufacturer) {
+        super(carvanName, price, availableCount, year, model, vehicleId, color, manufacturer);
     }
 
     // TODO: Implemnet and define carvan specific methods and parameters.
@@ -187,11 +225,12 @@ class Carvan extends Vehicle {
 @DatabaseTable(tableName = "buses")
 class Bus extends Vehicle {
     Bus() {
-        this("");
+        this("", 0.0, 0, 0, "", "", "", "");
     }
 
-    Bus(String busName) {
-        super(busName);
+    Bus(String busName, double price, int availableCount, int year, String model, String vehicleId,
+            String color, String manufacturer) {
+        super(busName, price, availableCount, year, model, vehicleId, color, manufacturer);
     }
 
     // TODO: Implemnet and define bus specific methods and parameters.

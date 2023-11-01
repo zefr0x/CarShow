@@ -6,7 +6,14 @@ import com.j256.ormlite.table.DatabaseTable;
 enum ProductType {
     Car,
     Carvan,
-    Bus
+    Bus,
+}
+
+enum FuelType {
+    Gasoline,
+    Diesel,
+    CompressedNatural,
+    Ethanol,
 }
 
 @DatabaseTable(tableName = "products")
@@ -81,7 +88,7 @@ class Product {
     }
 
     public void incrementAvailableCount() {
-            this.availableCount++;
+        this.availableCount++;
     }
 
     public void decrementAvailableCount() {
@@ -123,6 +130,7 @@ class Vehicle extends Product {
     public static final String VIN_FIELD = "VIN";
     public static final String COLOR_FIELD = "color";
     public static final String MANUFACTURER_FIELD = "manufacturer";
+    public static final String FUEL_TYPE_FIELD = "fuel";
 
     @DatabaseField(columnName = YEAR_FIELD, canBeNull = false)
     private int year;
@@ -139,37 +147,21 @@ class Vehicle extends Product {
     @DatabaseField(columnName = MANUFACTURER_FIELD, canBeNull = false)
     private String manufacturer;
 
+    @DatabaseField(columnName = FUEL_TYPE_FIELD, canBeNull = false)
+    private FuelType fuelType;
+
     Vehicle() {
-        this("", 0, 0, 0, "", "", "", "");
+        this("", 0, 0, 0, "", "", "", "", FuelType.Gasoline);
     }
 
     Vehicle(String vehicleName, double price, int availableCount, int year, String model, String vehicleId,
-            String color, String manufacturer) {
+            String color, String manufacturer, FuelType fuelType) {
         super(vehicleName, price, availableCount);
-        setYear(year);
-        setModel(model);
-        setVehicleIdentificationNumber(vehicleId);
-        setColor(color);
-        setManufacturer(manufacturer);
-    }
 
-    public void setYear(int year) {
         this.year = year;
-    }
-
-    public void setModel(String model) {
         this.model = model;
-    }
-
-    public void setVehicleIdentificationNumber(String VehicleId) {
-        this.VehicleIdentificationNumber = VehicleId;
-    }
-
-    public void setColor(String color) {
+        this.VehicleIdentificationNumber = vehicleId;
         this.color = color;
-    }
-
-    public void setManufacturer(String manufacturer) {
         this.manufacturer = manufacturer;
     }
 
@@ -196,42 +188,147 @@ class Vehicle extends Product {
 
 @DatabaseTable(tableName = "cars")
 class Car extends Vehicle {
+    public static final String HAS_SENCSORS_FIELD = "sencsors";
+    public static final String HAS_CAMERAS_FIELD = "cameras";
+    public static final String HAS_BLIND_SPOT_RADAR_FIELD = "blind_sport_radar";
+    public static final String SHIFTER_TYPE_FIELD = "shifter_type";
+
+    @DatabaseField(columnName = HAS_SENCSORS_FIELD, canBeNull = false)
+    private boolean hasSencsors;
+
+    @DatabaseField(columnName = HAS_CAMERAS_FIELD, canBeNull = false)
+    private boolean hasCameras;
+
+    @DatabaseField(columnName = HAS_BLIND_SPOT_RADAR_FIELD, canBeNull = false)
+    private boolean hasBlindSpotRadar;
+
+    @DatabaseField(columnName = SHIFTER_TYPE_FIELD, canBeNull = false)
+    private String shifterType;
+
     Car() {
-        this("", 0.0, 0, 0, "", "", "", "");
+        this("", 0.0, 0, 0, "", "", "", "", FuelType.Gasoline, false, false, false, "");
     }
 
     Car(String carName, double price, int availableCount, int year, String model, String vehicleId,
-            String color, String manufacturer) {
-        super(carName, price, availableCount, year, model, vehicleId, color, manufacturer);
+            String color, String manufacturer, FuelType fuelType, boolean hasSencsors, boolean hasCameras,
+            boolean hasBlindSpotRadar, String shifterType) {
+        super(carName, price, availableCount, year, model, vehicleId, color, manufacturer, fuelType);
+
+        this.hasSencsors = hasSencsors;
+        this.hasCameras = hasCameras;
+        this.hasBlindSpotRadar = hasBlindSpotRadar;
+        this.shifterType = shifterType;
     }
 
-    // TODO: Implemnet and define car specific methods and parameters.
+    public boolean getHasSencsors() {
+        return this.hasSencsors;
+    }
+
+    public boolean getHasCameras() {
+        return this.hasCameras;
+    }
+
+    public boolean getHasBlindSportRadar() {
+        return this.hasBlindSpotRadar;
+    }
+
+    public String getShifterType() {
+        return this.shifterType;
+    }
 }
 
 @DatabaseTable(tableName = "carvans")
 class Carvan extends Vehicle {
+    public static final String ROOMS_COUNT_FIELD = "rooms_count";
+    public static final String HAS_KITCHEN_FIELD = "kitchen";
+    public static final String HAS_BATHROOM_FIELD = "bathroom";
+    public static final String WATER_CAPACITY_FIELD = "water_capacity";
+
+    @DatabaseField(columnName = ROOMS_COUNT_FIELD, canBeNull = false)
+    private int numberOfRooms;
+    @DatabaseField(columnName = HAS_KITCHEN_FIELD, canBeNull = false)
+    private boolean hasKitchen;
+    @DatabaseField(columnName = HAS_BATHROOM_FIELD, canBeNull = false)
+    private boolean hasBathroom;
+    @DatabaseField(columnName = WATER_CAPACITY_FIELD, canBeNull = false)
+    private double waterCapacity; // In Litres
+
     Carvan() {
-        this("", 0.0, 0, 0, "", "", "", "");
+        this("", 0.0, 0, 0, "", "", "", "", 0, false, false, 0.0, FuelType.Diesel);
     }
 
     Carvan(String carvanName, double price, int availableCount, int year, String model, String vehicleId,
-            String color, String manufacturer) {
-        super(carvanName, price, availableCount, year, model, vehicleId, color, manufacturer);
+            String color, String manufacturer, int numberOfRooms, boolean hasKitchen, boolean hasBathroom,
+            double waterCapacity, FuelType fuelType) {
+        super(carvanName, price, availableCount, year, model, vehicleId, color, manufacturer, fuelType);
+
+        this.numberOfRooms = numberOfRooms;
+        this.hasKitchen = hasKitchen;
+        this.hasBathroom = hasBathroom;
+        this.waterCapacity = waterCapacity;
     }
 
-    // TODO: Implemnet and define carvan specific methods and parameters.
+    public int getNumberOfRooms() {
+        return this.numberOfRooms;
+    }
+
+    public boolean getHasKitchen() {
+        return this.hasKitchen;
+    }
+
+    public boolean getHasBathroom() {
+        return this.hasBathroom;
+    }
+
+    public double getWaterCapacity() {
+        return this.waterCapacity;
+    }
 }
 
 @DatabaseTable(tableName = "buses")
 class Bus extends Vehicle {
+    public static final String PASSENGER_CAPCITY_FIELD = "passengers";
+    public static final String IS_DOUBLE_DECKER_FIELD = "double_decker";
+    public static final String HAS_WIFI_FIELD = "wifi";
+    public static final String HAS_BATHROOM_FIELD = "bathroom";
+
+    @DatabaseField(columnName = PASSENGER_CAPCITY_FIELD, canBeNull = false)
+    private int passengerCapacity;
+    @DatabaseField(columnName = IS_DOUBLE_DECKER_FIELD, canBeNull = false)
+    private boolean isDoubleDecker;
+    @DatabaseField(columnName = HAS_WIFI_FIELD, canBeNull = false)
+    private boolean hasWifi;
+    @DatabaseField(columnName = HAS_BATHROOM_FIELD, canBeNull = false)
+    private boolean hasBathroom;
+
     Bus() {
-        this("", 0.0, 0, 0, "", "", "", "");
+        this("", 0.0, 0, 0, "", "", "", "", 0, false, false, false, FuelType.Diesel);
     }
 
     Bus(String busName, double price, int availableCount, int year, String model, String vehicleId,
-            String color, String manufacturer) {
-        super(busName, price, availableCount, year, model, vehicleId, color, manufacturer);
+            String color, String manufacturer, int passengerCapacity, boolean isDoubleDecker, boolean hasWifi,
+            boolean hasBathroom, FuelType fuelType) {
+        super(busName, price, availableCount, year, model, vehicleId, color, manufacturer, fuelType);
+
+        this.passengerCapacity = passengerCapacity;
+        this.isDoubleDecker = isDoubleDecker;
+        this.hasWifi = hasWifi;
+        this.hasBathroom = hasBathroom;
     }
 
-    // TODO: Implemnet and define bus specific methods and parameters.
+    public int getPassengerCapacity() {
+        return this.passengerCapacity;
+    }
+
+    public boolean getIsDoubleDecker() {
+        return this.isDoubleDecker;
+    }
+
+    public boolean getHasWifi() {
+        return this.hasWifi;
+    }
+
+    public boolean getHasBathroom() {
+        return this.hasBathroom;
+    }
 }

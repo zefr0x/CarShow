@@ -8,7 +8,6 @@ class UserAccount {
     // Table fields names
     public static final String USER_NAME_FIELD = "user_name";
     public static final String PASSWORD_HASH_FIELD = "password_hash";
-    public static final String PASSWORD_SALT_FIELD = "password_salt";
     public static final String FIRST_NAME_FIELD = "first_name";
     public static final String LAST_NAME_FIELD = "last_name";
 
@@ -20,9 +19,6 @@ class UserAccount {
 
     @DatabaseField(columnName = PASSWORD_HASH_FIELD, canBeNull = false)
     private String passwordHash;
-
-    @DatabaseField(columnName = PASSWORD_SALT_FIELD, canBeNull = false)
-    private String passwordSalt;
 
     @DatabaseField(columnName = FIRST_NAME_FIELD, canBeNull = false)
     private String firstName;
@@ -43,9 +39,7 @@ class UserAccount {
     }
 
     public void setPassword(String password) {
-        this.passwordSalt = BCrypt.gensalt();
-
-        this.passwordHash = BCrypt.hashpw(password, this.passwordSalt);
+        this.passwordHash = BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
     public int getId() {

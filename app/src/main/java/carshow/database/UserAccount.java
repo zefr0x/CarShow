@@ -211,6 +211,6 @@ class CostomerAccount extends UserAccount {
     }
 
     public void addLoyalityPoints(int points) {
-        this.loyalityPoints = points;
+        this.loyalityPoints += points;
     }
 }

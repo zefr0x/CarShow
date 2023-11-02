@@ -46,10 +46,15 @@ class Sale {
     Sale() {
     }
 
-    Sale(CostomerAccount costomer, SalesManAccount salesMan, ProductTypesWrapper product) {
+    Sale(CostomerAccount costomer, SalesManAccount salesMan, ProductTypesWrapper product, double totalBill,
+            PaymentMethod paymentMethod) {
         this.costomer = costomer;
         this.salesMan = salesMan;
         this.product = product;
+
+        this.totalBill = totalBill;
+        this.paymentMethod = paymentMethod;
+        this.saleTime = System.currentTimeMillis();
     }
 
     public int getId() {

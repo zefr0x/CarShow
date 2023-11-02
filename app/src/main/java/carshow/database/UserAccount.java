@@ -19,16 +19,16 @@ class UserAccount {
     private String userName;
 
     @DatabaseField(columnName = PASSWORD_HASH_FIELD, canBeNull = false)
-    private String password_hash;
+    private String passwordHash;
+
+    @DatabaseField(columnName = PASSWORD_SALT_FIELD, canBeNull = false)
+    private String passwordSalt;
 
     @DatabaseField(columnName = FIRST_NAME_FIELD, canBeNull = false)
     private String firstName;
 
     @DatabaseField(columnName = LAST_NAME_FIELD, canBeNull = false)
     private String lastName;
-
-    @DatabaseField(columnName = PASSWORD_SALT_FIELD, canBeNull = false)
-    private String password_salt;
 
     UserAccount(String userName, String password, String firstName, String lastName) {
         this.setUserName(userName);
@@ -43,9 +43,9 @@ class UserAccount {
     }
 
     public void setPassword(String password) {
-        this.password_salt = BCrypt.gensalt();
+        this.passwordSalt = BCrypt.gensalt();
 
-        this.password_hash = BCrypt.hashpw(password, this.password_salt);
+        this.passwordHash = BCrypt.hashpw(password, this.passwordSalt);
     }
 
     public int getId() {
@@ -61,7 +61,7 @@ class UserAccount {
     }
 
     public boolean validatePassword(String password) {
-        return BCrypt.checkpw(password, this.password_hash);
+        return BCrypt.checkpw(password, this.passwordHash);
     }
 }
 
@@ -172,12 +172,16 @@ class SalesManAccount extends UserAccount {
 class CostomerAccount extends UserAccount {
     public static final String PHONE_NUMBER_FIELD = "phone";
     public static final String EMAIL_ADDRESS_FIELD = "email";
+    public static final String LOYALITY_POINTS_FIELD = "loyality_points";
 
     @DatabaseField(columnName = PHONE_NUMBER_FIELD, canBeNull = false)
     private String phoneNumber;
 
     @DatabaseField(columnName = EMAIL_ADDRESS_FIELD, canBeNull = false)
     private String emailAddress;
+
+    @DatabaseField(columnName = LOYALITY_POINTS_FIELD, canBeNull = false)
+    private int loyalityPoints;
 
     CostomerAccount() {
         this("costomer", "password", "", "", "", "");
@@ -186,6 +190,10 @@ class CostomerAccount extends UserAccount {
     CostomerAccount(String userName, String password, String firstName, String lastName, String phoneNumber,
             String emailAddress) {
         super(userName, password, firstName, lastName);
+
+        this.phoneNumber = phoneNumber;
+        this.emailAddress = emailAddress;
+        this.loyalityPoints = 0;
     }
 
     public void setPhoneNumber(String phoneNumber) {
@@ -202,5 +210,13 @@ class CostomerAccount extends UserAccount {
 
     public String getEmailAddress() {
         return this.emailAddress;
+    }
+
+    public int getLoyalityPoints() {
+        return loyalityPoints;
+    }
+
+    public void addLoyalityPoints(int points) {
+        this.loyalityPoints = points;
     }
 }

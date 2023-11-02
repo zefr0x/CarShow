@@ -63,7 +63,7 @@ class Product {
         setAvailableCount(productAvailableCount);
     }
 
-    public void setProductName(String productName) {
+    private void setProductName(String productName) {
         if (!(productName.contains("!") || productName.contains("@"))) {
             this.productName = productName;
         } else {
@@ -139,7 +139,7 @@ class Vehicle extends Product {
     private String model;
 
     @DatabaseField(columnName = VIN_FIELD, canBeNull = false)
-    private String VehicleIdentificationNumber;
+    private String vehicleIdentificationNumber;
 
     @DatabaseField(columnName = COLOR_FIELD, canBeNull = false)
     private String color;
@@ -160,9 +160,10 @@ class Vehicle extends Product {
 
         this.year = year;
         this.model = model;
-        this.VehicleIdentificationNumber = vehicleId;
+        this.vehicleIdentificationNumber = vehicleId;
         this.color = color;
         this.manufacturer = manufacturer;
+        this.fuelType = fuelType;
     }
 
     public int getYear() {
@@ -174,7 +175,7 @@ class Vehicle extends Product {
     }
 
     public String getVehicleIdentificationNumber() {
-        return this.VehicleIdentificationNumber;
+        return this.vehicleIdentificationNumber;
     }
 
     public String getColor() {
@@ -183,6 +184,10 @@ class Vehicle extends Product {
 
     public String getManufacturer() {
         return this.manufacturer;
+    }
+
+    public FuelType getFuelType() {
+        return this.fuelType;
     }
 }
 
@@ -246,10 +251,13 @@ class Carvan extends Vehicle {
 
     @DatabaseField(columnName = ROOMS_COUNT_FIELD, canBeNull = false)
     private int numberOfRooms;
+
     @DatabaseField(columnName = HAS_KITCHEN_FIELD, canBeNull = false)
     private boolean hasKitchen;
+
     @DatabaseField(columnName = HAS_BATHROOM_FIELD, canBeNull = false)
     private boolean hasBathroom;
+
     @DatabaseField(columnName = WATER_CAPACITY_FIELD, canBeNull = false)
     private double waterCapacity; // In Litres
 

@@ -1,29 +1,12 @@
-package carshow.database;
+package carshow;
 
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
 import org.mindrot.jbcrypt.BCrypt;
 
 class UserAccount {
-    // Table fields names
-    public static final String USER_NAME_FIELD = "user_name";
-    public static final String PASSWORD_HASH_FIELD = "password_hash";
-    public static final String FIRST_NAME_FIELD = "first_name";
-    public static final String LAST_NAME_FIELD = "last_name";
-
-    @DatabaseField(generatedId = true)
     private int id;
-
-    @DatabaseField(columnName = USER_NAME_FIELD, canBeNull = false, unique = true)
     private String userName;
-
-    @DatabaseField(columnName = PASSWORD_HASH_FIELD, canBeNull = false)
     private String passwordHash;
-
-    @DatabaseField(columnName = FIRST_NAME_FIELD, canBeNull = false)
     private String firstName;
-
-    @DatabaseField(columnName = LAST_NAME_FIELD, canBeNull = false)
     private String lastName;
 
     UserAccount(String userName, String password, String firstName, String lastName) {
@@ -59,24 +42,10 @@ class UserAccount {
     }
 }
 
-@DatabaseTable(tableName = "admins")
 class AdminAccount extends UserAccount {
-    public static final String BRANCH_FIELD = "branch";
-    public static final String SALARY_FIELD = "salary";
-    public static final String OFFICE_NUMBER_FIELD = "office_number";
-
-    @DatabaseField(columnName = BRANCH_FIELD, canBeNull = false)
     private String branch;
-
-    @DatabaseField(columnName = SALARY_FIELD, canBeNull = false)
     private double salary;
-
-    @DatabaseField(columnName = OFFICE_NUMBER_FIELD, canBeNull = false)
     private int officeNumber;
-
-    AdminAccount() {
-        this("admin", "password", "", "", "", 0.0, 0);
-    }
 
     AdminAccount(String userName, String password, String firstName, String lastName, String branch, double salary,
             int officeNumber) {
@@ -113,28 +82,18 @@ class AdminAccount extends UserAccount {
     }
 }
 
-@DatabaseTable(tableName = "sales_men")
 class SalesManAccount extends UserAccount {
-    public static final String BRANCH_FIELD = "branch";
-    public static final String SALARY_FIELD = "salary";
-    public static final String PRODUCT_TYPE_FIELD = "product_type";
-
-    @DatabaseField(columnName = BRANCH_FIELD, canBeNull = false)
     private String branch;
-
-    @DatabaseField(columnName = SALARY_FIELD, canBeNull = false)
     private double salary;
-
-    @DatabaseField(columnName = PRODUCT_TYPE_FIELD, canBeNull = false)
     private ProductType productType;
-
-    SalesManAccount() {
-        this("admin", "password", "", "", "", 0.0, ProductType.Car);
-    }
 
     SalesManAccount(String userName, String password, String firstName, String lastName, String branch, double salary,
             ProductType productType) {
         super(userName, password, firstName, lastName);
+
+        this.branch = branch;
+        this.salary = salary;
+        this.productType = productType;
     }
 
     public void setBranch(String branch) {
@@ -162,24 +121,10 @@ class SalesManAccount extends UserAccount {
     }
 }
 
-@DatabaseTable(tableName = "costomers")
 class CostomerAccount extends UserAccount {
-    public static final String PHONE_NUMBER_FIELD = "phone";
-    public static final String EMAIL_ADDRESS_FIELD = "email";
-    public static final String LOYALITY_POINTS_FIELD = "loyality_points";
-
-    @DatabaseField(columnName = PHONE_NUMBER_FIELD, canBeNull = false)
     private String phoneNumber;
-
-    @DatabaseField(columnName = EMAIL_ADDRESS_FIELD, canBeNull = false)
     private String emailAddress;
-
-    @DatabaseField(columnName = LOYALITY_POINTS_FIELD, canBeNull = false)
     private int loyalityPoints;
-
-    CostomerAccount() {
-        this("costomer", "password", "", "", "", "");
-    }
 
     CostomerAccount(String userName, String password, String firstName, String lastName, String phoneNumber,
             String emailAddress) {

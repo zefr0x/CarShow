@@ -23,8 +23,6 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     // This dependency is used by the application.
-    implementation("org.xerial:sqlite-jdbc:3.43.0.0")
-    implementation("com.j256.ormlite:ormlite-jdbc:6.1")
     implementation("org.mindrot:jbcrypt:0.4")
 }
 

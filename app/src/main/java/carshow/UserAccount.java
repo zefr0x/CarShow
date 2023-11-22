@@ -1,9 +1,11 @@
 package carshow;
 
+import java.util.UUID;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 class UserAccount {
-    private int id;
+    private String id;
     private String userName;
     private String passwordHash;
     private String firstName;
@@ -14,6 +16,8 @@ class UserAccount {
         this.setPassword(password);
         this.firstName = firstName;
         this.lastName = lastName;
+
+        this.id = UUID.randomUUID().toString();
     }
 
     private void setUserName(String userName) {
@@ -25,7 +29,7 @@ class UserAccount {
         this.passwordHash = BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
-    public int getId() {
+    public String getId() {
         return this.id;
     }
 

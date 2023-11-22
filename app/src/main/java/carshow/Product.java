@@ -1,5 +1,7 @@
 package carshow;
 
+import java.util.UUID;
+
 enum FuelType {
     Gasoline,
     Diesel,
@@ -14,7 +16,7 @@ enum ProductType {
 }
 
 class Product {
-    private int id;
+    private String id;
     private String productName;
     private double price;
     private int availableCount; // number of available products
@@ -23,6 +25,8 @@ class Product {
         setProductName(productName);
         setPrice(productPrice);
         setAvailableCount(productAvailableCount);
+
+        this.id =  UUID.randomUUID().toString();
     }
 
     private void setProductName(String productName) {
@@ -61,7 +65,7 @@ class Product {
         }
     }
 
-    public int getId() {
+    public String getId() {
         return this.id;
     }
 

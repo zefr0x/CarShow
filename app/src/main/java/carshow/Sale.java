@@ -1,6 +1,7 @@
 package carshow;
 
 import java.util.Date;
+import java.util.UUID;
 
 enum PaymentMethod {
     Cache,
@@ -10,7 +11,7 @@ enum PaymentMethod {
 }
 
 class Sale {
-    private int id;
+    private String id;
     private CostomerAccount costomer;
     private SalesManAccount salesMan;
     private Product product;
@@ -27,9 +28,10 @@ class Sale {
         this.totalBill = totalBill;
         this.paymentMethod = paymentMethod;
         this.saleTime = System.currentTimeMillis();
+        this.id = UUID.randomUUID().toString();
     }
 
-    public int getId() {
+    public String getId() {
         return this.id;
     }
 

@@ -44,6 +44,12 @@ class UserAccount {
     public boolean validatePassword(String password) {
         return BCrypt.checkpw(password, this.passwordHash);
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + " / " + "ID: " + this.id + ", UserName: " + this.userName + ", Name: "
+                + getFullName();
+    }
 }
 
 class AdminAccount extends UserAccount {
@@ -84,6 +90,12 @@ class AdminAccount extends UserAccount {
     public int getOfficeNumber() {
         return this.officeNumber;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", Branch: " + this.branch + ", Salary: " + this.salary + ", OfficeNumber: "
+                + this.officeNumber;
+    }
 }
 
 class SalesManAccount extends UserAccount {
@@ -123,6 +135,12 @@ class SalesManAccount extends UserAccount {
     public ProductType getProductType() {
         return this.productType;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", Branch: " + this.branch + ", Salary: " + this.salary + ", OfficeNumber: "
+                + this.productType.toString();
+    }
 }
 
 class CostomerAccount extends UserAccount {
@@ -161,5 +179,11 @@ class CostomerAccount extends UserAccount {
 
     public void addLoyalityPoints(int points) {
         this.loyalityPoints += points;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", PhoneNumber: " + this.phoneNumber + ", EmailAddress: " + this.emailAddress
+                + ", LoyalityPoints: " + this.loyalityPoints;
     }
 }

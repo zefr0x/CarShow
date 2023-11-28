@@ -26,7 +26,7 @@ class Product {
         setPrice(productPrice);
         setAvailableCount(productAvailableCount);
 
-        this.id =  UUID.randomUUID().toString();
+        this.id = UUID.randomUUID().toString();
     }
 
     private void setProductName(String productName) {
@@ -88,6 +88,12 @@ class Product {
             throw new IllegalArgumentException("Discount percentage can only be between 0 and 100");
         }
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + " / " + "ID: " + this.id + ", Name: " + this.productName + ", Price: "
+                + this.price + ", Available Count: " + this.availableCount;
+    }
 }
 
 class Vehicle extends Product {
@@ -133,6 +139,13 @@ class Vehicle extends Product {
     public FuelType getFuelType() {
         return this.fuelType;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", Year: " + this.year + ", Model: " + this.model + ", VIN: "
+                + this.vehicleIdentificationNumber + ", Color: " + this.color + ", Manufacturer: " + this.manufacturer
+                + ", Fuel Type: " + this.fuelType.toString();
+    }
 }
 
 class Car extends Vehicle {
@@ -166,6 +179,12 @@ class Car extends Vehicle {
 
     public String getShifterType() {
         return this.shifterType;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", Has Sencsors: " + this.hasSencsors + ", Has Cameras" + this.hasCameras
+                + ", Has BlindSpot Radar: " + this.hasBlindSpotRadar + ", Shifter Type: " + this.shifterType;
     }
 }
 
@@ -201,6 +220,12 @@ class Carvan extends Vehicle {
     public double getWaterCapacity() {
         return this.waterCapacity;
     }
+
+    @Override
+    public String toString() {
+        return ", Number of Rooms: " + this.numberOfRooms + ", Has Kitchen: " + this.hasKitchen + ", Has Bathroom: "
+                + this.hasBathroom + ", Water Capacity: " + this.waterCapacity;
+    }
 }
 
 class Bus extends Vehicle {
@@ -234,5 +259,11 @@ class Bus extends Vehicle {
 
     public boolean getHasBathroom() {
         return this.hasBathroom;
+    }
+
+    @Override
+    public String toString() {
+        return ", Passenger Capacity: " + this.passengerCapacity + ", Is Double Decker: " + this.isDoubleDecker
+                + ", Has WiFi: " + this.hasWifi + ", Has Bathroom: " + this.hasBathroom;
     }
 }

@@ -19,6 +19,7 @@ class Sale {
     private double totalBill;
     private PaymentMethod paymentMethod;
 
+    // Payment via sales man.
     Sale(CostomerAccount costomer, SalesManAccount salesMan, Product product, double totalBill,
             PaymentMethod paymentMethod) {
         this.costomer = costomer;
@@ -29,6 +30,11 @@ class Sale {
         this.paymentMethod = paymentMethod;
         this.saleTime = System.currentTimeMillis();
         this.id = UUID.randomUUID().toString();
+    }
+
+    // Self payment without any sales man.
+    Sale(CostomerAccount costomer, Product product, double totalBill, PaymentMethod paymentMethod) {
+        this(costomer, null, product, totalBill, paymentMethod);
     }
 
     public String getId() {

@@ -34,9 +34,9 @@ public class App {
     }
 
     void mainOptionsPage() {
-        System.out.println("\n1. Login as Admin/Salesman/Costumer\n"
-                .concat("2. List available vehicles\n")
-                .concat("3. Search in available vehicles\n")
+        System.out.print("\n1. Login as Admin/Salesman/Costumer\n"
+                .concat("2. List available products\n")
+                .concat("3. Search in all products\n")
                 .concat("0. Exit (Reset the system)\n")
                 .concat("Select an option: "));
 
@@ -48,20 +48,27 @@ public class App {
         } else if (option == 1) {
             this.loginPage();
         } else if (option == 2) {
-            for (Product product : this.products) {
-                if (product.getAvailableCount() > 0) {
-                    System.out.println(product);
-                }
-            }
+            listProducts(1);
         } else if (option == 3) {
-            // TODO: Implement products search.
+            System.out.print("Enter a search term: ");
+            String searchTerm = input.next();
+
+            List<Product> matches = searchProducts(searchTerm);
+
+            for (Product product : matches) {
+                System.out.println(product);
+            }
+
+            if (matches.isEmpty()) {
+                System.out.println("Your search term doesn't match any product, please use another term.");
+            }
         } else {
             System.out.println("Error: The selected option is invalid, please selection another option.");
         }
     }
 
     void loginPage() {
-        System.out.print("Enter username: ");
+        System.out.print("\nEnter username: ");
         String userName = this.input.next();
         System.out.print("Enter password: ");
         String password = this.input.next();
@@ -86,17 +93,95 @@ public class App {
         System.out.println("The username you enterd is not available.");
     }
 
+    void listProducts() {
+        if (this.products.isEmpty()) {
+            System.out.println("Error: No products are sotred in the system.");
+            return;
+        } else {
+            for (Product product : this.products) {
+                System.out.println(product);
+            }
+        }
+    }
+
+    void listProducts(int minAvailableCount) {
+        if (this.products.isEmpty()) {
+            System.out.println("Error: No products are sotred in the system.");
+            return;
+        } else {
+            for (Product product : this.products) {
+                if (product.getAvailableCount() >= minAvailableCount) {
+                    System.out.println(product);
+                }
+            }
+        }
+    }
+
+    void listCostomers() {
+        for (UserAccount user : this.userAccounts) {
+            if (user instanceof CostomerAccount) {
+                System.out.println(user);
+            }
+        }
+    }
+
+    List<Product> searchProducts(String searchTerm) {
+        List<Product> matches = new ArrayList<>();
+
+        for (Product product : this.products) {
+            Searchable productS = (Searchable) product;
+
+            if (productS.passSearchTerm(searchTerm)) {
+                matches.add(product);
+            }
+        }
+
+        return matches;
+    }
+
+    List<UserAccount> searchUsers(String searchTerm) {
+        List<UserAccount> matches = new ArrayList<>();
+
+        for (UserAccount user : this.userAccounts) {
+            Searchable userS = (Searchable) user;
+
+            if (userS.passSearchTerm(searchTerm)) {
+                matches.add(user);
+            }
+        }
+
+        return matches;
+    }
+
+    List<CostomerAccount> searchCostomers(String searchTerm) {
+        List<CostomerAccount> matches = new ArrayList<>();
+
+        for (UserAccount user : this.userAccounts) {
+            if (user instanceof CostomerAccount) {
+                Searchable userS = (Searchable) user;
+
+                if (userS.passSearchTerm(searchTerm)) {
+                    matches.add((CostomerAccount) user);
+                }
+            }
+        }
+
+        return matches;
+    }
+
     void adminPage(AdminAccount adminAccount) {
         while (true) {
-            System.out.println("1. Create new admin account\n"
+            System.out.print("\n1. Create new admin account\n"
                     .concat("2. Create new sales man account\n")
                     .concat("3. Add new product\n")
                     .concat("4. Update product's available count\n")
-                    .concat("5. Query total sales report\n")
-                    .concat("6. Query available products report\n")
-                    .concat("7. Query costomers report\n")
-                    .concat("8. Applay a disscount on a product\n")
-                    .concat("9. Change password\n")
+                    .concat("5. Applay a disscount on a product\n")
+                    .concat("6. Query total sales report\n")
+                    .concat("7. Query available products report\n")
+                    .concat("8. Query system users report\n")
+                    .concat("9. List all system users\n")
+                    .concat("10. Search in system users\n")
+                    .concat("11. Change my password\n")
                     .concat("0. Logout\n")
                     .concat("Select an option: "));
 
@@ -111,9 +196,92 @@ public class App {
             } else if (option == 3) {
                 createProduct();
             } else if (option == 4) {
-                // TODO: Implement more admin options.
+                Product targetProduct = selectProduct();
+
+                if (targetProduct != null) {
+                    System.out.println("Previos available count: " + targetProduct.getAvailableCount());
+
+                    System.out.print("Enter the new count: ");
+                    int newCount = input.nextInt();
+
+                    targetProduct.setAvailableCount(newCount);
+                }
             } else if (option == 5) {
+                Product targetProduct = selectProduct();
+
+                if (targetProduct != null) {
+                    System.out.println("Current price: " + targetProduct.getPrice());
+
+                    System.out.print("Enter discount percentage: ");
+                    double discountPercentage = input.nextDouble();
+
+                    targetProduct.applyDiscount(discountPercentage);
+                }
             } else if (option == 6) {
+                double totalIncome = 0;
+
+                for (Sale sale : this.sales) {
+                    totalIncome += sale.getTotalBill();
+                }
+
+                System.out.println("Number of sales: " + this.sales.size());
+                System.out.println("Total income: " + totalIncome);
+                if (!sales.isEmpty()) {
+                    System.out.println("Last sale time: " + (sales.get(sales.size() - 1).getSaleDateString()));
+                }
+                // TODO: Print most soled product data and least sold product.
+            } else if (option == 7) {
+                int availableCount = 0;
+                int totalPiecesCount = 0;
+
+                for (Product product : this.products) {
+                    if (product.getAvailableCount() > 0) {
+                        availableCount += 1;
+                    }
+                    totalPiecesCount += product.getAvailableCount();
+                }
+
+                System.out.println("Number of products: " + products.size());
+                System.out.println("Number of available products: " + availableCount);
+                System.out.println("Number of all products pieces available: " + totalPiecesCount);
+            } else if (option == 8) {
+                int adminsCount = 0;
+                int salesmenCount = 0;
+                int costomersCount = 0;
+
+                for (UserAccount user : this.userAccounts) {
+                    if (user instanceof AdminAccount) {
+                        adminsCount += 1;
+                    } else if (user instanceof SalesManAccount) {
+                        salesmenCount += 1;
+                    } else if (user instanceof CostomerAccount) {
+                        costomersCount += 1;
+                    }
+                }
+
+                System.out.println("Total system users count: " + this.userAccounts.size());
+                System.out.println("Admins count: " + adminsCount);
+                System.out.println("Sales men count: " + salesmenCount);
+                System.out.println("Cosomers count: " + costomersCount);
+            } else if (option == 9) {
+                for (UserAccount user : this.userAccounts) {
+                    System.out.println(user);
+                }
+            } else if (option == 10) {
+                System.out.print("Enter a search term: ");
+                String searchTerm = input.next();
+
+                List<UserAccount> matches = searchUsers(searchTerm);
+
+                for (UserAccount user : matches) {
+                    System.out.println(user);
+                }
+
+                if (matches.isEmpty()) {
+                    System.out.println("Your search term doesn't match any user, please use another term.");
+                }
+            } else if (option == 11) {
+                changeUserPassword(adminAccount);
             } else {
                 System.out.println("Error: The selected option is invalid, please selection another option.");
             }
@@ -122,11 +290,13 @@ public class App {
 
     void salesManPage(SalesManAccount salesManAccount) {
         while (true) {
-            System.out.println("1. Create new costomer account\n"
+            System.out.print("\n1. Create new costomer account\n"
                     .concat("2. Sale a product to a costomer\n")
-                    .concat("3. Change password\n")
-                    .concat("4. Delete my account\n")
-                    .concat("0. Logout\n").concat("Select an option: "));
+                    .concat("3. Search in costomers\n")
+                    .concat("4. Change password\n")
+                    .concat("5. Delete my account\n")
+                    .concat("0. Logout\n")
+                    .concat("Select an option: "));
 
             int option = this.input.nextInt();
 
@@ -135,8 +305,26 @@ public class App {
             } else if (option == 1) {
                 createCostomerAccount();
             } else if (option == 2) {
-                // TODO: Implement more sales man options.
+                saleProduct(salesManAccount);
             } else if (option == 3) {
+                System.out.print("Enter a search term: ");
+                String searchTerm = input.next();
+
+                List<CostomerAccount> matches = searchCostomers(searchTerm);
+
+                for (CostomerAccount costomer : matches) {
+                    System.out.println(costomer);
+                }
+
+                if (matches.isEmpty()) {
+                    System.out.println("Your search term doesn't match any costomer, please use another term.");
+                }
+            } else if (option == 4) {
+                changeUserPassword(salesManAccount);
+            } else if (option == 5) {
+                deleteUserAccount(salesManAccount);
+                System.out.println("You was loged out from your account.");
+                return;
             } else {
                 System.out.println("Error: The selected option is invalid, please selection another option.");
             }
@@ -145,7 +333,7 @@ public class App {
 
     void costomerPage(CostomerAccount costomerAccount) {
         while (true) {
-            System.out.println("1. Select and pay a product (self payment)\n"
+            System.out.print("\n1. Select and pay a product (self payment)\n"
                     .concat("2. Query previos payments")
                     .concat("3. Change password\n")
                     .concat("4. Delete my account\n")
@@ -157,9 +345,19 @@ public class App {
             if (option == 0) {
                 return;
             } else if (option == 1) {
-                // TODO: Implement more costomer options.
+                saleProduct(costomerAccount);
             } else if (option == 2) {
+                for (Sale sale : this.sales) {
+                    if (sale.getCostomer() == costomerAccount) {
+                        System.out.println(sale);
+                    }
+                }
             } else if (option == 3) {
+                changeUserPassword(costomerAccount);
+            } else if (option == 4) {
+                deleteUserAccount(costomerAccount);
+                System.out.println("Your was loged out from your account.");
+                return;
             } else {
                 System.out.println("Error: The selected option is invalid, please selection another option.");
             }
@@ -248,6 +446,109 @@ public class App {
             return System.console().readPassword().toString();
         } else {
             return this.input.next();
+        }
+    }
+
+    void changeUserPassword(UserAccount user) {
+        while (true) {
+            System.out.print("Enter a new password: ");
+            String newPassword = readPassword();
+            System.out.println("Repeat the password: ");
+            if (newPassword.equals(readPassword())) {
+                user.setPassword(newPassword);
+                System.out.println("Your password was updated.");
+                break;
+            } else {
+                System.out.println("The passwords doesn't match, please try again.");
+            }
+        }
+    }
+
+    void deleteUserAccount(UserAccount user) {
+        System.out.println(
+                "Warning: Your account will be deleted, but your data associated with sales will stay in the system.");
+        this.userAccounts.remove(user);
+        System.out.println(
+                "Account " + user.getId() + " with userName: " + user.getUserName() + " was deleted sucessfully.");
+    }
+
+    void saleProduct(SalesManAccount salesMan) {
+        Product targetProduct = selectProduct();
+        CostomerAccount targetCostomer = selectCostomer();
+        PaymentMethod targetPaymentMethod = selectPaymentMethod();
+
+        // TODO: Provide way to apply a limited disccount per sale by the sales man.
+        if (targetProduct != null && targetCostomer != null) {
+            this.sales
+                    .add(new Sale(targetCostomer, salesMan, targetProduct, targetProduct.getPrice(),
+                            targetPaymentMethod));
+        }
+    }
+
+    void saleProduct(CostomerAccount costomer) {
+        Product targetProduct = selectProduct();
+        PaymentMethod targetPaymentMethod = selectPaymentMethod();
+
+        if (targetProduct != null) {
+            this.sales.add(new Sale(costomer, targetProduct, targetProduct.getPrice(), targetPaymentMethod));
+        }
+    }
+
+    PaymentMethod selectPaymentMethod() {
+        System.out.printf("1. %s\n2. %s\n3. %s\n4. %s\n", PaymentMethod.Mada, PaymentMethod.Visa, PaymentMethod.Cache,
+                PaymentMethod.Mastercard);
+        System.out.print("Select a payment method: ");
+
+        // TODO: Handle error.
+        return PaymentMethod.valueOf(input.next());
+    }
+
+    Product selectProduct() {
+        if (this.products.isEmpty()) {
+            System.out.println("Error: There is not product in the system, please create one before.");
+            return null;
+        }
+        listProducts(1);
+
+        while (true) {
+            System.out.print("Select a product by ID: ");
+            String productID = input.next();
+
+            for (Product product : this.products) {
+                if (product.getId().equals(productID)) {
+                    return product;
+                }
+            }
+            System.out.println("Error: This ID doesn't point to any product, please try again.");
+        }
+    }
+
+    CostomerAccount selectCostomer() {
+        boolean empty = true;
+        for (UserAccount user : this.userAccounts) {
+            if (user instanceof CostomerAccount) {
+                empty = false;
+            }
+        }
+        if (empty) {
+            System.out.println("Error: There is no costomer in the system, pleace create one before.");
+            return null;
+        }
+
+        listCostomers();
+
+        while (true) {
+            System.out.print("Select a costomer ID: ");
+            String id = input.next();
+            for (UserAccount user : this.userAccounts) {
+                if (user instanceof CostomerAccount) {
+                    CostomerAccount costomer = (CostomerAccount) user;
+                    if (costomer.getId().equals(id)) {
+                        return costomer;
+                    }
+                }
+            }
+            System.out.println("Error No costomer has this ID, please try again.");
         }
     }
 

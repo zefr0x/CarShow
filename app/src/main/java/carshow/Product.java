@@ -148,7 +148,7 @@ class Vehicle extends Product {
     }
 }
 
-class Car extends Vehicle {
+class Car extends Vehicle implements Searchable {
     private boolean hasSencsors;
     private boolean hasCameras;
     private boolean hasBlindSpotRadar;
@@ -186,9 +186,28 @@ class Car extends Vehicle {
         return super.toString() + ", Has Sencsors: " + this.hasSencsors + ", Has Cameras" + this.hasCameras
                 + ", Has BlindSpot Radar: " + this.hasBlindSpotRadar + ", Shifter Type: " + this.shifterType;
     }
+
+    @Override
+    public boolean passSearchTerm(String filterTerm) {
+        if (this.getId().equals(filterTerm)
+                || this.getProductName().toLowerCase().contains(filterTerm)
+                || Integer.toString(this.getYear()).equals(filterTerm)
+                || this.getModel().toLowerCase().contains(filterTerm)
+                || this.getVehicleIdentificationNumber().toLowerCase().equals(filterTerm)
+                || this.getColor().toLowerCase().contains(filterTerm)
+                || this.getManufacturer().toLowerCase().contains(filterTerm)
+                || this.getFuelType().toString().toLowerCase().contains(filterTerm)
+                || this.shifterType.contains(filterTerm)
+                || (filterTerm.contains("sencsor") && this.hasSencsors)
+                || (filterTerm.contains("camera") && this.hasSencsors)
+                || (filterTerm.contains("blind") && this.hasBlindSpotRadar)) {
+            return true;
+        }
+        return false;
+    }
 }
 
-class Carvan extends Vehicle {
+class Carvan extends Vehicle implements Searchable {
     private int numberOfRooms;
     private boolean hasKitchen;
     private boolean hasBathroom;
@@ -226,9 +245,27 @@ class Carvan extends Vehicle {
         return ", Number of Rooms: " + this.numberOfRooms + ", Has Kitchen: " + this.hasKitchen + ", Has Bathroom: "
                 + this.hasBathroom + ", Water Capacity: " + this.waterCapacity;
     }
+
+    @Override
+    public boolean passSearchTerm(String filterTerm) {
+        if (this.getId().equals(filterTerm)
+                || this.getProductName().toLowerCase().contains(filterTerm)
+                || Integer.toString(this.getYear()).equals(filterTerm)
+                || this.getModel().toLowerCase().contains(filterTerm)
+                || this.getVehicleIdentificationNumber().toLowerCase().equals(filterTerm)
+                || this.getColor().toLowerCase().contains(filterTerm)
+                || this.getManufacturer().toLowerCase().contains(filterTerm)
+                || this.getFuelType().toString().toLowerCase().contains(filterTerm)
+                || Integer.toString(this.numberOfRooms).equals(filterTerm)
+                || (filterTerm.contains("kitchen") && this.hasKitchen)
+                || (filterTerm.contains("bathroom") && this.hasBathroom)) {
+            return true;
+        }
+        return false;
+    }
 }
 
-class Bus extends Vehicle {
+class Bus extends Vehicle implements Searchable {
     private int passengerCapacity;
     private boolean isDoubleDecker;
     private boolean hasWifi;
@@ -265,5 +302,23 @@ class Bus extends Vehicle {
     public String toString() {
         return ", Passenger Capacity: " + this.passengerCapacity + ", Is Double Decker: " + this.isDoubleDecker
                 + ", Has WiFi: " + this.hasWifi + ", Has Bathroom: " + this.hasBathroom;
+    }
+
+    @Override
+    public boolean passSearchTerm(String filterTerm) {
+        if (this.getId().equals(filterTerm)
+                || this.getProductName().toLowerCase().contains(filterTerm)
+                || Integer.toString(this.getYear()).equals(filterTerm)
+                || this.getModel().toLowerCase().contains(filterTerm)
+                || this.getVehicleIdentificationNumber().toLowerCase().equals(filterTerm)
+                || this.getColor().toLowerCase().contains(filterTerm)
+                || this.getManufacturer().toLowerCase().contains(filterTerm)
+                || this.getFuelType().toString().toLowerCase().contains(filterTerm)
+                || (filterTerm.contains("decker") && this.isDoubleDecker)
+                || (filterTerm.contains("wifi") && this.hasWifi)
+                || (filterTerm.contains("bathroom") && this.hasBathroom)) {
+            return true;
+        }
+        return false;
     }
 }

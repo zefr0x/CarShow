@@ -10,7 +10,7 @@ enum PaymentMethod {
     Mastercard,
 }
 
-class Sale {
+class Sale implements Searchable {
     private String id;
     private CostomerAccount costomer;
     private SalesManAccount salesMan;
@@ -41,6 +41,18 @@ class Sale {
         return this.id;
     }
 
+    public CostomerAccount getCostomer() {
+        return this.costomer;
+    }
+
+    public SalesManAccount getSalesMan() {
+        return this.salesMan;
+    }
+
+    public Product getProduct() {
+        return this.product;
+    }
+
     public double getTotalBill() {
         return this.totalBill;
     }
@@ -64,5 +76,17 @@ class Sale {
                 + this.salesMan.getFullName() + "\n Product ID: " + this.product.getId() + ", Product Name: "
                 + this.product.getProductName() + "\n Total Bill: " + this.totalBill + ", Payment Method: "
                 + this.paymentMethod.toString() + ", Sale Time: " + getSaleDateString();
+    }
+
+    @Override
+    public boolean passSearchTerm(String filterTerm) {
+        if (this.getId().equals(filterTerm)
+                || this.costomer.passSearchTerm(filterTerm)
+                || this.salesMan.passSearchTerm(filterTerm)
+                || ((Searchable) this.product).passSearchTerm(filterTerm)
+                || this.paymentMethod.toString().toLowerCase().contains(filterTerm)) {
+            return true;
+        }
+        return false;
     }
 }

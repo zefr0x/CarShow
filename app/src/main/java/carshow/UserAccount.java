@@ -37,6 +37,14 @@ class UserAccount {
         return this.userName;
     }
 
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public String getLastName() {
+        return this.lastName;
+    }
+
     public String getFullName() {
         return this.firstName + " " + this.lastName;
     }
@@ -52,7 +60,7 @@ class UserAccount {
     }
 }
 
-class AdminAccount extends UserAccount {
+class AdminAccount extends UserAccount implements Searchable {
     private String branch;
     private double salary;
     private int officeNumber;
@@ -96,9 +104,22 @@ class AdminAccount extends UserAccount {
         return super.toString() + ", Branch: " + this.branch + ", Salary: " + this.salary + ", OfficeNumber: "
                 + this.officeNumber;
     }
+
+    @Override
+    public boolean passSearchTerm(String filterTerm) {
+        if (this.getId().equals(filterTerm)
+                || this.getUserName().contains(filterTerm)
+                || this.getFirstName().contains(filterTerm)
+                || this.getLastName().contains(filterTerm)
+                || this.branch.contains(filterTerm)
+                || Integer.toString(this.officeNumber).equals(filterTerm)) {
+            return true;
+        }
+        return false;
+    }
 }
 
-class SalesManAccount extends UserAccount {
+class SalesManAccount extends UserAccount implements Searchable {
     private String branch;
     private double salary;
     private ProductType productType;
@@ -141,9 +162,22 @@ class SalesManAccount extends UserAccount {
         return super.toString() + ", Branch: " + this.branch + ", Salary: " + this.salary + ", OfficeNumber: "
                 + this.productType.toString();
     }
+
+    @Override
+    public boolean passSearchTerm(String filterTerm) {
+        if (this.getId().equals(filterTerm)
+                || this.getUserName().contains(filterTerm)
+                || this.getFirstName().contains(filterTerm)
+                || this.getLastName().contains(filterTerm)
+                || this.branch.contains(filterTerm)
+                || productType.toString().toLowerCase().contains(filterTerm)) {
+            return true;
+        }
+        return false;
+    }
 }
 
-class CostomerAccount extends UserAccount {
+class CostomerAccount extends UserAccount implements Searchable {
     private String phoneNumber;
     private String emailAddress;
     private int loyalityPoints;
@@ -185,5 +219,17 @@ class CostomerAccount extends UserAccount {
     public String toString() {
         return super.toString() + ", PhoneNumber: " + this.phoneNumber + ", EmailAddress: " + this.emailAddress
                 + ", LoyalityPoints: " + this.loyalityPoints;
+    }
+
+    @Override
+    public boolean passSearchTerm(String filterTerm) {
+        if (this.getId().equals(filterTerm)
+                || this.getUserName().contains(filterTerm)
+                || this.getFirstName().contains(filterTerm)
+                || this.getLastName().contains(filterTerm)
+                || this.emailAddress.contains(filterTerm)) {
+            return true;
+        }
+        return false;
     }
 }

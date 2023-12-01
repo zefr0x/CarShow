@@ -369,8 +369,25 @@ public class App {
         }
     }
 
+    boolean checkUserName(String userName) {
+        for (UserAccount user : this.userAccounts) {
+            if (user.getUserName().equals(userName)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     void createAdminAccount() {
-        String userName = readString("Enter a user name: ");
+        String userName;
+        while (true) {
+            userName = readString("Enter a user name: ");
+            if (checkUserName(userName)) {
+                break;
+            } else {
+                System.out.println("Error: This user name is already used in the system, please use another.");
+            }
+        }
         String password = readPassword("Enter a password: ");
         String firstName = readString("Enter a first name: ");
         String lastName = readString("Enter a last name: ");
@@ -386,7 +403,15 @@ public class App {
     }
 
     void createSalesManAccount() {
-        String userName = readString("Enter a user name: ");
+        String userName;
+        while (true) {
+            userName = readString("Enter a user name: ");
+            if (checkUserName(userName)) {
+                break;
+            } else {
+                System.out.println("Error: This user name is already used in the system, please use another.");
+            }
+        }
         String password = readPassword("Enter a password: ");
         String firstName = readString("Enter a first name: ");
         String lastName = readString("Enter a last name: ");
@@ -403,7 +428,15 @@ public class App {
     }
 
     void createCostomerAccount() {
-        String userName = readString("Enter a user name: ");
+        String userName;
+        while (true) {
+            userName = readString("Enter a user name: ");
+            if (checkUserName(userName)) {
+                break;
+            } else {
+                System.out.println("Error: This user name is already used in the system, please use another.");
+            }
+        }
         String password = readPassword("Enter a password: ");
         String firstName = readString("Enter a first name: ");
         String lastName = readString("Enter a last name: ");

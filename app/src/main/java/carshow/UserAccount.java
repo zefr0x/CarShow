@@ -21,7 +21,6 @@ class UserAccount {
     }
 
     private void setUserName(String userName) {
-        // TODO: Apply restrictions on user names.
         this.userName = userName;
     }
 

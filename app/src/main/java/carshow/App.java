@@ -5,8 +5,6 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.Console;
 
-// FIX: Handle multible line input.
-
 public class App {
     List<Product> products;
     List<UserAccount> userAccounts;
@@ -365,8 +363,6 @@ public class App {
     }
 
     void createAdminAccount() {
-        // TODO: Check for user name rules.
-        // TODO: Catch errors and return to home page.
         System.out.print("Enter a user name (Must not contain white spaces): ");
         String userName = input.nextLine();
         System.out.print("Enter a password: ");
@@ -390,8 +386,6 @@ public class App {
     }
 
     void createSalesManAccount() {
-        // TODO: Check for user name rules.
-        // TODO: Catch errors and return to home page.
         System.out.print("Enter a user name (Must not contain white spaces): ");
         String userName = input.nextLine();
         System.out.print("Enter a password: ");
@@ -404,10 +398,7 @@ public class App {
         String branch = input.nextLine();
         System.out.print("Enter a salary: ");
         Double salary = Double.valueOf(input.nextLine());
-        System.out.println("\nProduct types:-\n".concat("- Car\n").concat("- Carvan\n").concat("- Bus"));
-        System.out.print("Select a product type: ");
-        // TODO: Hnalde error when type not available.
-        ProductType productType = ProductType.valueOf(input.nextLine());
+        ProductType productType = selectProductType();
 
         SalesManAccount newSalesMan = new SalesManAccount(userName, password, firstName, lastName, branch, salary,
                 productType);
@@ -417,8 +408,6 @@ public class App {
     }
 
     void createCostomerAccount() {
-        // TODO: Check for user name rules.
-        // TODO: Catch errors and return to home page.
         System.out.print("Enter a user name (Must not contain white spaces): ");
         String userName = input.nextLine();
         System.out.print("Enter a password: ");
@@ -499,8 +488,15 @@ public class App {
                 PaymentMethod.Mastercard);
         System.out.print("Select a payment method: ");
 
-        // TODO: Handle error.
         return PaymentMethod.valueOf(input.nextLine());
+    }
+
+    ProductType selectProductType() {
+        System.out.printf("\nProduct types:-\n- %s\n- %s\n- %s\n", ProductType.Car, ProductType.Carvan,
+                ProductType.Bus);
+        System.out.print("Select a product type: ");
+
+        return ProductType.valueOf(input.nextLine());
     }
 
     Product selectProduct() {
@@ -565,10 +561,7 @@ public class App {
     }
 
     void createVehicle(String vehicleName, double price, int availableCount) {
-        System.out.println("\nProduct types:-\n".concat("- Car\n").concat("- Carvan\n").concat("- Bus"));
-        System.out.print("Select a product type: ");
-        // TODO: Hnalde error when type not available.
-        ProductType productType = ProductType.valueOf(input.nextLine());
+        ProductType productType = selectProductType();
 
         System.out.print("Year: ");
         int year = Integer.valueOf(input.nextLine());
@@ -580,9 +573,9 @@ public class App {
         String color = input.nextLine();
         System.out.print("Manufacturer: ");
         String manufacturer = input.nextLine();
-        // FIX: Show options.
-        System.out.print("Fuel Type: ");
-        // TODO: Hnalde error when type not available.
+        System.out.printf("Fuel Types:-\n- %s\n- %s\n- %s\n- %s\n", FuelType.Diesel, FuelType.Ethanol,
+                FuelType.Gasoline, FuelType.CompressedNatural);
+        System.out.print("Select a fuel type: ");
         FuelType fuelType = FuelType.valueOf(input.nextLine());
 
         switch (productType) {
@@ -600,7 +593,6 @@ public class App {
 
     void createCar(String carName, double price, int availableCount, int year, String model, String vehicleId,
             String color, String manufacturer, FuelType fuelType) {
-        // TODO: Handle InputMismatchException.
         System.out.print("Has Sencsors (true/false): ");
         boolean hasSencsors = Boolean.valueOf(input.nextLine());
         System.out.print("Has Cameras (true/false): ");
@@ -621,7 +613,6 @@ public class App {
             String color, String manufacturer, FuelType fuelType) {
         System.out.print("Number of rooms: ");
         int numberOfRooms = Integer.valueOf(input.nextLine());
-        // TODO: Handle InputMismatchException.
         System.out.print("Has Kitchen (true/false): ");
         boolean hasKitchen = Boolean.valueOf(input.nextLine());
         System.out.print("Has Bathroom (true/false): ");

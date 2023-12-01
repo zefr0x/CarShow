@@ -158,7 +158,7 @@ class SalesManAccount extends UserAccount implements Searchable {
 
     @Override
     public String toString() {
-        return super.toString() + ", Branch: " + this.branch + ", Salary: " + this.salary + ", OfficeNumber: "
+        return super.toString() + ", Branch: " + this.branch + ", Salary: " + this.salary + ", Related product type: "
                 + this.productType.toString();
     }
 

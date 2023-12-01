@@ -39,6 +39,7 @@ public class App {
                 .concat("0. Exit (Reset the system)\n"));
 
         int option = readInt("Select an option: ");
+        System.out.println();
 
         if (option == 0) {
             this.input.close();
@@ -57,10 +58,10 @@ public class App {
             }
 
             if (matches.isEmpty()) {
-                System.out.println("Your search term doesn't match any product, please use another term.");
+                System.out.println("Error: Your search term doesn't match any product, please use another term.");
             }
         } else {
-            System.out.println("Error: The selected option is invalid, please selection another option.");
+            System.out.println("Error: The selected option is invalid, please select another option.");
         }
     }
 
@@ -180,6 +181,7 @@ public class App {
                     .concat("0. Logout\n"));
 
             int option = readInt("Select an option: ");
+            System.out.println();
 
             if (option == 0) {
                 return;
@@ -269,7 +271,7 @@ public class App {
                 }
 
                 if (matches.isEmpty()) {
-                    System.out.println("Your search term doesn't match any user, please use another term.");
+                    System.out.println("Error: Your search term doesn't match any user, please use another term.");
                 }
             } else if (option == 11) {
                 changeUserPassword(adminAccount);
@@ -289,6 +291,7 @@ public class App {
                     .concat("0. Logout\n"));
 
             int option = readInt("Select an option: ");
+            System.out.println();
 
             if (option == 0) {
                 return;
@@ -306,7 +309,7 @@ public class App {
                 }
 
                 if (matches.isEmpty()) {
-                    System.out.println("Your search term doesn't match any Customer, please use another term.");
+                    System.out.println("Error: Your search term doesn't match any Customer, please use another term.");
                 }
             } else if (option == 4) {
                 changeUserPassword(salesManAccount);
@@ -323,12 +326,13 @@ public class App {
     void costomerPage(CostomerAccount costomerAccount) {
         while (true) {
             System.out.print("\n1. Select and pay a product (self payment)\n"
-                    .concat("2. Query previous payments")
+                    .concat("2. Query previous payments\n")
                     .concat("3. Change password\n")
                     .concat("4. Delete my account\n")
                     .concat("0. Logout\n"));
 
             int option = readInt("Select an option: ");
+            System.out.println();
 
             if (option == 0) {
                 return;
@@ -375,6 +379,7 @@ public class App {
         String lastName = readString("Enter a last name: ");
         String branch = readString("Enter a branch: ");
         Double salary = readDouble("Enter a salary: ");
+        System.out.println("What product type is this sales man responsable for?");
         ProductType productType = selectProductType();
 
         SalesManAccount newSalesMan = new SalesManAccount(userName, password, firstName, lastName, branch, salary,
@@ -396,7 +401,7 @@ public class App {
                 emailAddress);
 
         userAccounts.add(newCostomer);
-        System.out.println("Sales man account created with uuid: " + newCostomer.getId());
+        System.out.println("Costomer account created with uuid: " + newCostomer.getId());
     }
 
     String readPassword(String prompt) {

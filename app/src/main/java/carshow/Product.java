@@ -183,7 +183,7 @@ class Car extends Vehicle implements Searchable {
 
     @Override
     public String toString() {
-        return super.toString() + ", Has Sencsors: " + this.hasSencsors + ", Has Cameras" + this.hasCameras
+        return super.toString() + ", Has Sencsors: " + this.hasSencsors + ", Has Cameras: " + this.hasCameras
                 + ", Has BlindSpot Radar: " + this.hasBlindSpotRadar + ", Shifter Type: " + this.shifterType;
     }
 
@@ -242,8 +242,8 @@ class Carvan extends Vehicle implements Searchable {
 
     @Override
     public String toString() {
-        return ", Number of Rooms: " + this.numberOfRooms + ", Has Kitchen: " + this.hasKitchen + ", Has Bathroom: "
-                + this.hasBathroom + ", Water Capacity: " + this.waterCapacity;
+        return super.toString() + ", Number of Rooms: " + this.numberOfRooms + ", Has Kitchen: " + this.hasKitchen
+                + ", Has Bathroom: " + this.hasBathroom + ", Water Capacity: " + this.waterCapacity;
     }
 
     @Override
@@ -300,7 +300,8 @@ class Bus extends Vehicle implements Searchable {
 
     @Override
     public String toString() {
-        return ", Passenger Capacity: " + this.passengerCapacity + ", Is Double Decker: " + this.isDoubleDecker
+        return super.toString() + ", Passenger Capacity: " + this.passengerCapacity + ", Is Double Decker: "
+                + this.isDoubleDecker
                 + ", Has WiFi: " + this.hasWifi + ", Has Bathroom: " + this.hasBathroom;
     }
 

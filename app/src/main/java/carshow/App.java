@@ -2,6 +2,7 @@ package carshow;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 import java.util.ArrayList;
 import java.io.Console;
 
@@ -409,13 +410,35 @@ public class App {
     }
 
     String readPhoneNumber(String prompt) {
-        // TODO: Check for valid phone number.
-        return readString(prompt);
+        final String phoneRegex = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$";
+        Pattern pat = Pattern.compile(phoneRegex);
+
+        String phoneNumberInput;
+
+        while (true) {
+            phoneNumberInput = readString(prompt);
+            if (pat.matcher(phoneNumberInput).matches()) {
+                return phoneNumberInput;
+            } else {
+                System.out.println("Error: Please enter a valid phone number.");
+            }
+        }
     }
 
     String readEmailAddress(String prompt) {
-        // TODO: Check for valid email address.
-        return readString(prompt);
+        final String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+        Pattern pat = Pattern.compile(emailRegex);
+
+        String emailInput;
+
+        while (true) {
+            emailInput = readString(prompt);
+            if (pat.matcher(emailInput).matches()) {
+                return emailInput;
+            } else {
+                System.out.println("Error: Please enter a valid email address.");
+            }
+        }
     }
 
     String readString(String prompt) {

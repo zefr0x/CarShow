@@ -35,10 +35,9 @@ public class App {
         System.out.print("\n1. Login as Admin/Salesman/Costumer\n"
                 .concat("2. List available products\n")
                 .concat("3. Search in all products\n")
-                .concat("0. Exit (Reset the system)\n")
-                .concat("Select an option: "));
+                .concat("0. Exit (Reset the system)\n"));
 
-        int option = Integer.valueOf(this.input.nextLine());
+        int option = readInt("Select an option: ");
 
         if (option == 0) {
             this.input.close();
@@ -48,8 +47,7 @@ public class App {
         } else if (option == 2) {
             listProducts(1);
         } else if (option == 3) {
-            System.out.print("Enter a search term: ");
-            String searchTerm = input.nextLine();
+            String searchTerm = readString("Enter a search term: ");
 
             List<Product> matches = searchProducts(searchTerm);
 
@@ -66,10 +64,8 @@ public class App {
     }
 
     void loginPage() {
-        System.out.print("\nEnter username: ");
-        String userName = this.input.nextLine();
-        System.out.print("Enter password: ");
-        String password = this.input.nextLine();
+        String userName = readString("\nEnter username: ");
+        String password = readPassword("Enter password: ");
 
         for (UserAccount user : userAccounts) {
             if (user.getUserName().equals(userName)) {
@@ -180,10 +176,9 @@ public class App {
                     .concat("9. List all system users\n")
                     .concat("10. Search in system users\n")
                     .concat("11. Change my password\n")
-                    .concat("0. Logout\n")
-                    .concat("Select an option: "));
+                    .concat("0. Logout\n"));
 
-            int option = Integer.valueOf(this.input.nextLine());
+            int option = readInt("Select an option: ");
 
             if (option == 0) {
                 return;
@@ -199,8 +194,7 @@ public class App {
                 if (targetProduct != null) {
                     System.out.println("Previous available count: " + targetProduct.getAvailableCount());
 
-                    System.out.print("Enter the new count: ");
-                    int newCount = Integer.valueOf(input.nextLine());
+                    int newCount = readInt("Enter the new count: ");
 
                     targetProduct.setAvailableCount(newCount);
                 }
@@ -210,8 +204,7 @@ public class App {
                 if (targetProduct != null) {
                     System.out.println("Current price: " + targetProduct.getPrice());
 
-                    System.out.print("Enter discount percentage: ");
-                    double discountPercentage = Double.valueOf(input.nextLine());
+                    double discountPercentage = readDouble("Enter discount percentage: ");
 
                     targetProduct.applyDiscount(discountPercentage);
                 }
@@ -266,8 +259,7 @@ public class App {
                     System.out.println(user);
                 }
             } else if (option == 10) {
-                System.out.print("Enter a search term: ");
-                String searchTerm = input.nextLine();
+                String searchTerm = readString("Enter a search term: ");
 
                 List<UserAccount> matches = searchUsers(searchTerm);
 
@@ -293,10 +285,9 @@ public class App {
                     .concat("3. Search in Customer\n")
                     .concat("4. Change password\n")
                     .concat("5. Delete my account\n")
-                    .concat("0. Logout\n")
-                    .concat("Select an option: "));
+                    .concat("0. Logout\n"));
 
-            int option = Integer.valueOf(this.input.nextLine());
+            int option = readInt("Select an option: ");
 
             if (option == 0) {
                 return;
@@ -305,8 +296,7 @@ public class App {
             } else if (option == 2) {
                 saleProduct(salesManAccount);
             } else if (option == 3) {
-                System.out.print("Enter a search term: ");
-                String searchTerm = input.nextLine();
+                String searchTerm = readString("Enter a search term: ");
 
                 List<CostomerAccount> matches = searchCostomers(searchTerm);
 
@@ -335,10 +325,9 @@ public class App {
                     .concat("2. Query previous payments")
                     .concat("3. Change password\n")
                     .concat("4. Delete my account\n")
-                    .concat("0. Logout\n")
-                    .concat("Select an option:"));
+                    .concat("0. Logout\n"));
 
-            int option = Integer.valueOf(this.input.nextLine());
+            int option = readInt("Select an option: ");
 
             if (option == 0) {
                 return;
@@ -363,20 +352,13 @@ public class App {
     }
 
     void createAdminAccount() {
-        System.out.print("Enter a user name (Must not contain white spaces): ");
-        String userName = input.nextLine();
-        System.out.print("Enter a password: ");
-        String password = readPassword();
-        System.out.print("Enter a first name: ");
-        String firstName = input.nextLine();
-        System.out.print("Enter a last name: ");
-        String lastName = input.nextLine();
-        System.out.print("Enter a branch: ");
-        String branch = input.nextLine();
-        System.out.print("Enter a salary: ");
-        Double salary = Double.valueOf(input.nextLine());
-        System.out.print("Enter an office number: ");
-        int officeNumber = Integer.valueOf(input.nextLine());
+        String userName = readString("Enter a user name: ");
+        String password = readPassword("Enter a password: ");
+        String firstName = readString("Enter a first name: ");
+        String lastName = readString("Enter a last name: ");
+        String branch = readString("Enter a branch: ");
+        Double salary = readDouble("Enter a salary: ");
+        int officeNumber = readInt("Enter an office number: ");
 
         AdminAccount newAccount = new AdminAccount(userName, password, firstName, lastName, branch, salary,
                 officeNumber);
@@ -386,18 +368,12 @@ public class App {
     }
 
     void createSalesManAccount() {
-        System.out.print("Enter a user name (Must not contain white spaces): ");
-        String userName = input.nextLine();
-        System.out.print("Enter a password: ");
-        String password = readPassword();
-        System.out.print("Enter a first name: ");
-        String firstName = input.nextLine();
-        System.out.print("Enter a last name: ");
-        String lastName = input.nextLine();
-        System.out.print("Enter a branch: ");
-        String branch = input.nextLine();
-        System.out.print("Enter a salary: ");
-        Double salary = Double.valueOf(input.nextLine());
+        String userName = readString("Enter a user name: ");
+        String password = readPassword("Enter a password: ");
+        String firstName = readString("Enter a first name: ");
+        String lastName = readString("Enter a last name: ");
+        String branch = readString("Enter a branch: ");
+        Double salary = readDouble("Enter a salary: ");
         ProductType productType = selectProductType();
 
         SalesManAccount newSalesMan = new SalesManAccount(userName, password, firstName, lastName, branch, salary,
@@ -408,19 +384,12 @@ public class App {
     }
 
     void createCostomerAccount() {
-        System.out.print("Enter a user name (Must not contain white spaces): ");
-        String userName = input.nextLine();
-        System.out.print("Enter a password: ");
-        String password = readPassword();
-        System.out.print("Enter a first name: ");
-        String firstName = input.nextLine();
-        System.out.print("Enter a last name: ");
-        String lastName = input.nextLine();
-        System.out.print("Enter a phone number: ");
-        String phoneNumber = input.nextLine();
-        System.out.print("Enter an email address: ");
-        // TODO: Check for valid email address.
-        String emailAddress = input.nextLine();
+        String userName = readString("Enter a user name: ");
+        String password = readPassword("Enter a password: ");
+        String firstName = readString("Enter a first name: ");
+        String lastName = readString("Enter a last name: ");
+        String phoneNumber = readPhoneNumber("Enter a phone number: ");
+        String emailAddress = readEmailAddress("Enter an email address: ");
 
         CostomerAccount newCostomer = new CostomerAccount(userName, password, firstName, lastName, phoneNumber,
                 emailAddress);
@@ -429,21 +398,84 @@ public class App {
         System.out.println("Sales man account created with uuid: " + newCostomer.getId());
     }
 
-    String readPassword() {
+    String readPassword(String prompt) {
         Console console = System.console();
         if (console != null) {
+            System.out.print(prompt);
             return System.console().readPassword().toString();
         } else {
-            return this.input.nextLine();
+            return readString(prompt);
         }
+    }
+
+    String readPhoneNumber(String prompt) {
+        // TODO: Check for valid phone number.
+        return readString(prompt);
+    }
+
+    String readEmailAddress(String prompt) {
+        // TODO: Check for valid email address.
+        return readString(prompt);
+    }
+
+    String readString(String prompt) {
+        System.out.print(prompt);
+
+        return this.input.nextLine();
+    }
+
+    int readInt(String prompt) {
+        int integer;
+
+        while (true) {
+            System.out.print(prompt);
+            try {
+                integer = Integer.parseInt(this.input.nextLine());
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: Please enter a valid integer number.");
+            }
+        }
+
+        return integer;
+    }
+
+    double readDouble(String prompt) {
+        double num;
+
+        while (true) {
+            System.out.print(prompt);
+            try {
+                num = Double.parseDouble(this.input.nextLine());
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: Please enter a valid double number.");
+            }
+        }
+
+        return num;
+    }
+
+    boolean readBoolean(String prompt) {
+        boolean bool;
+
+        while (true) {
+            System.out.print(prompt);
+            try {
+                bool = Boolean.parseBoolean(this.input.nextLine());
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: Please enter a valid boolean (ether `true` or `false`).");
+            }
+        }
+
+        return bool;
     }
 
     void changeUserPassword(UserAccount user) {
         while (true) {
-            System.out.print("Enter a new password: ");
-            String newPassword = readPassword();
-            System.out.println("Repeat the password: ");
-            if (newPassword.equals(readPassword())) {
+            String newPassword = readPassword("Enter a new password: ");
+            if (newPassword.equals(readPassword("Repeat the password: "))) {
                 user.setPassword(newPassword);
                 System.out.println("Your password was updated.");
                 break;
@@ -486,17 +518,58 @@ public class App {
     PaymentMethod selectPaymentMethod() {
         System.out.printf("1. %s\n2. %s\n3. %s\n4. %s\n", PaymentMethod.Mada, PaymentMethod.Visa, PaymentMethod.Cache,
                 PaymentMethod.Mastercard);
-        System.out.print("Select a payment method: ");
 
-        return PaymentMethod.valueOf(input.nextLine());
+        PaymentMethod paymentMethod;
+
+        while (true) {
+            System.out.print("Select a payment method: ");
+            try {
+                paymentMethod = PaymentMethod.valueOf(this.input.nextLine());
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: Invalid choise, please try again.");
+            }
+        }
+
+        return paymentMethod;
     }
 
     ProductType selectProductType() {
         System.out.printf("\nProduct types:-\n- %s\n- %s\n- %s\n", ProductType.Car, ProductType.Carvan,
                 ProductType.Bus);
-        System.out.print("Select a product type: ");
 
-        return ProductType.valueOf(input.nextLine());
+        ProductType productType;
+
+        while (true) {
+            System.out.print("Select a product type: ");
+            try {
+                productType = ProductType.valueOf(this.input.nextLine());
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: Invalid choise, please try again.");
+            }
+        }
+
+        return productType;
+    }
+
+    FuelType selectFuelType() {
+        System.out.printf("Fuel Types:-\n- %s\n- %s\n- %s\n- %s\n", FuelType.Diesel, FuelType.Ethanol,
+                FuelType.Gasoline, FuelType.CompressedNatural);
+
+        FuelType fuelType;
+
+        while (true) {
+            System.out.print("Select a fuel type: ");
+            try {
+                fuelType = FuelType.valueOf(this.input.nextLine());
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: Invalid choise, please try again.");
+            }
+        }
+
+        return fuelType;
     }
 
     Product selectProduct() {
@@ -507,8 +580,7 @@ public class App {
         listProducts(1);
 
         while (true) {
-            System.out.print("Select a product by ID: ");
-            String productID = input.nextLine();
+            String productID = readString("Select a product by ID: ");
 
             for (Product product : this.products) {
                 if (product.getId().equals(productID)) {
@@ -534,8 +606,7 @@ public class App {
         listCostomers();
 
         while (true) {
-            System.out.print("Select a Customer ID: ");
-            String id = input.nextLine();
+            String id = readString("Select a Customer ID: ");
             for (UserAccount user : this.userAccounts) {
                 if (user instanceof CostomerAccount) {
                     CostomerAccount costomer = (CostomerAccount) user;
@@ -549,12 +620,9 @@ public class App {
     }
 
     void createProduct() {
-        System.out.print("Enter a product name: ");
-        String productName = input.nextLine();
-        System.out.print("Enter a price: ");
-        double price = Double.valueOf(input.nextLine());
-        System.out.print("Available Count: ");
-        int availableCount = Integer.valueOf(input.nextLine());
+        String productName = readString("Enter a product name: ");
+        double price = readDouble("Enter a price: ");
+        int availableCount = readInt("Available Count: ");
 
         // There is only one product type: Vehicle.
         createVehicle(productName, price, availableCount);
@@ -563,20 +631,12 @@ public class App {
     void createVehicle(String vehicleName, double price, int availableCount) {
         ProductType productType = selectProductType();
 
-        System.out.print("Year: ");
-        int year = Integer.valueOf(input.nextLine());
-        System.out.print("Model: ");
-        String model = input.nextLine();
-        System.out.print("VIN: ");
-        String vehicleId = input.nextLine();
-        System.out.print("Color: ");
-        String color = input.nextLine();
-        System.out.print("Manufacturer: ");
-        String manufacturer = input.nextLine();
-        System.out.printf("Fuel Types:-\n- %s\n- %s\n- %s\n- %s\n", FuelType.Diesel, FuelType.Ethanol,
-                FuelType.Gasoline, FuelType.CompressedNatural);
-        System.out.print("Select a fuel type: ");
-        FuelType fuelType = FuelType.valueOf(input.nextLine());
+        int year = readInt("Year: ");
+        String model = readString("Model: ");
+        String vehicleId = readString("VIN: ");
+        String color = readString("Color: ");
+        String manufacturer = readString("Manufacturer: ");
+        FuelType fuelType = selectFuelType();
 
         switch (productType) {
             case Car:
@@ -593,14 +653,10 @@ public class App {
 
     void createCar(String carName, double price, int availableCount, int year, String model, String vehicleId,
             String color, String manufacturer, FuelType fuelType) {
-        System.out.print("Has Sensors (true/false): ");
-        boolean hasSencsors = Boolean.valueOf(input.nextLine());
-        System.out.print("Has Cameras (true/false): ");
-        boolean hasCameras = Boolean.valueOf(input.nextLine());
-        System.out.print("Has BlindSpot Radar (true/false): ");
-        boolean hasBlindSpotRadar = Boolean.valueOf(input.nextLine());
-        System.out.print("Shifter Type: ");
-        String shifterType = input.nextLine();
+        boolean hasSencsors = readBoolean("Has Sensors (true/false): ");
+        boolean hasCameras = readBoolean("Has Cameras (true/false): ");
+        boolean hasBlindSpotRadar = readBoolean("Has BlindSpot Radar (true/false): ");
+        String shifterType = readString("Shifter Type: ");
 
         Car newCar = new Car(carName, price, availableCount, year, model, vehicleId, color, manufacturer, fuelType,
                 hasSencsors, hasCameras, hasBlindSpotRadar, shifterType);
@@ -611,14 +667,10 @@ public class App {
 
     void createCarvan(String carvanName, double price, int availableCount, int year, String model, String vehicleId,
             String color, String manufacturer, FuelType fuelType) {
-        System.out.print("Number of rooms: ");
-        int numberOfRooms = Integer.valueOf(input.nextLine());
-        System.out.print("Has Kitchen (true/false): ");
-        boolean hasKitchen = Boolean.valueOf(input.nextLine());
-        System.out.print("Has Bathroom (true/false): ");
-        boolean hasBathroom = Boolean.valueOf(input.nextLine());
-        System.out.print("Water Capacity: ");
-        double waterCapacity = Double.valueOf(input.nextLine());
+        int numberOfRooms = readInt("Number of rooms: ");
+        boolean hasKitchen = readBoolean("Has Kitchen (true/false): ");
+        boolean hasBathroom = readBoolean("Has Bathroom (true/false): ");
+        double waterCapacity = readDouble("Water Capacity: ");
 
         Carvan newCarvan = new Carvan(carvanName, price, availableCount, year, model, vehicleId, color, manufacturer,
                 numberOfRooms, hasKitchen, hasBathroom, waterCapacity, fuelType);
@@ -629,14 +681,10 @@ public class App {
 
     void createBus(String busName, double price, int availableCount, int year, String model, String vehicleId,
             String color, String manufacturer, FuelType fuelType) {
-        System.out.print("Passenger Capacity: ");
-        int passengerCapacity = Integer.valueOf(input.nextLine());
-        System.out.print("Is Double Decker (true/false): ");
-        boolean isDoubleDecker = Boolean.valueOf(input.nextLine());
-        System.out.print("Has WiFi (true/false): ");
-        boolean hasWifi = Boolean.valueOf(input.nextLine());
-        System.out.print("Has Bathroom (true/false): ");
-        boolean hasBathroom = Boolean.valueOf(input.nextLine());
+        int passengerCapacity = readInt("Passenger Capacity: ");
+        boolean isDoubleDecker = readBoolean("Is Double Decker (true/false): ");
+        boolean hasWifi = readBoolean("Has WiFi (true/false): ");
+        boolean hasBathroom = readBoolean("Has Bathroom (true/false): ");
 
         Bus newBus = new Bus(busName, price, availableCount, year, model, vehicleId, color, manufacturer,
                 passengerCapacity, isDoubleDecker, hasWifi, hasBathroom, fuelType);

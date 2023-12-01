@@ -72,8 +72,10 @@ class Sale implements Searchable {
     @Override
     public String toString() {
         return "Sale ID: " + this.id + "\n Costomer ID: " + this.costomer.getId() + ", Costomer Full Name: "
-                + this.costomer.getFullName() + "\n SalesMan ID: " + this.salesMan.getId() + ", SalesMan Full Name: "
-                + this.salesMan.getFullName() + "\n Product ID: " + this.product.getId() + ", Product Name: "
+                + this.costomer.getFullName()
+                + (this.salesMan != null ? "\n SalesMan ID: " + this.salesMan.getId() + ", SalesMan Full Name: "
+                        + this.salesMan.getFullName() : "")
+                + "\n Product ID: " + this.product.getId() + ", Product Name: "
                 + this.product.getProductName() + "\n Total Bill: " + this.totalBill + ", Payment Method: "
                 + this.paymentMethod.toString() + ", Sale Time: " + getSaleDateString();
     }

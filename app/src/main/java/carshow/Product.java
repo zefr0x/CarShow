@@ -30,11 +30,7 @@ class Product {
     }
 
     private void setProductName(String productName) {
-        if (!(productName.contains("!") || productName.contains("@"))) {
-            this.productName = productName;
-        } else {
-            throw new IllegalArgumentException("Product name cannot contain '!' or '@'.");
-        }
+        this.productName = productName;
     }
 
     public void setPrice(double price) {

@@ -49,7 +49,7 @@ public class App {
         } else if (option == 2) {
             listProducts(1);
         } else if (option == 3) {
-            String searchTerm = readString("Enter a search term: ");
+            String searchTerm = readString("Enter a search term: ").toLowerCase();
 
             List<Product> matches = searchProducts(searchTerm);
 
@@ -197,9 +197,15 @@ public class App {
                 if (targetProduct != null) {
                     System.out.println("Previous available count: " + targetProduct.getAvailableCount());
 
-                    int newCount = readInt("Enter the new count: ");
-
-                    targetProduct.setAvailableCount(newCount);
+                    while (true) {
+                        int newCount = readInt("Enter the new count: ");
+                        try {
+                            targetProduct.setAvailableCount(newCount);
+                            break;
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        }
+                    }
                 }
             } else if (option == 5) {
                 Product targetProduct = selectProduct();
@@ -207,9 +213,15 @@ public class App {
                 if (targetProduct != null) {
                     System.out.println("Current price: " + targetProduct.getPrice());
 
-                    double discountPercentage = readDouble("Enter discount percentage: ");
-
-                    targetProduct.applyDiscount(discountPercentage);
+                    while (true) {
+                        double discountPercentage = readDouble("Enter discount percentage: ");
+                        try {
+                            targetProduct.applyDiscount(discountPercentage);
+                            break;
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        }
+                    }
                 }
             } else if (option == 6) {
                 double totalIncome = 0;
@@ -262,7 +274,7 @@ public class App {
                     System.out.println(user);
                 }
             } else if (option == 10) {
-                String searchTerm = readString("Enter a search term: ");
+                String searchTerm = readString("Enter a search term: ").toLowerCase();
 
                 List<UserAccount> matches = searchUsers(searchTerm);
 
@@ -300,7 +312,7 @@ public class App {
             } else if (option == 2) {
                 saleProduct(salesManAccount);
             } else if (option == 3) {
-                String searchTerm = readString("Enter a search term: ");
+                String searchTerm = readString("Enter a search term: ").toLowerCase();
 
                 List<CostomerAccount> matches = searchCostomers(searchTerm);
 
@@ -485,19 +497,17 @@ public class App {
     }
 
     boolean readBoolean(String prompt) {
-        boolean bool;
-
         while (true) {
             System.out.print(prompt);
-            try {
-                bool = Boolean.parseBoolean(this.input.nextLine());
-                break;
-            } catch (IllegalArgumentException e) {
+            String str = this.input.nextLine().toLowerCase();
+            if (str.equals("true")) {
+                return true;
+            } else if (str.equals("false")) {
+                return false;
+            } else {
                 System.out.println("Error: Please enter a valid boolean (ether `true` or `false`).");
             }
         }
-
-        return bool;
     }
 
     void changeUserPassword(UserAccount user) {
@@ -523,23 +533,42 @@ public class App {
 
     void saleProduct(SalesManAccount salesMan) {
         Product targetProduct = selectProduct();
-        CostomerAccount targetCostomer = selectCostomer();
-        PaymentMethod targetPaymentMethod = selectPaymentMethod();
+        if (targetProduct != null) {
+            if (targetProduct.getAvailableCount() <= 0) {
+                System.out.println("Error: This product is no longer avialable.");
+                return;
+            }
+            CostomerAccount targetCostomer = selectCostomer();
+            if (targetCostomer != null) {
+                PaymentMethod targetPaymentMethod = selectPaymentMethod();
 
-        // TODO: Provide way to apply a limited disccount per sale by the sales man.
-        if (targetProduct != null && targetCostomer != null) {
-            this.sales
-                    .add(new Sale(targetCostomer, salesMan, targetProduct, targetProduct.getPrice(),
-                            targetPaymentMethod));
+                // TODO: Provide way to apply a limited disccount per sale by the sales man.
+                this.sales
+                        .add(new Sale(targetCostomer, salesMan, targetProduct, targetProduct.getPrice(),
+                                targetPaymentMethod));
+                targetProduct.decrementAvailableCount();
+                targetCostomer.addLoyalityPoints(1);
+                System.out.println("Product " + targetProduct.getId() + "was soled to " + targetCostomer.getId()
+                        + " successfully.");
+            }
         }
     }
 
     void saleProduct(CostomerAccount costomer) {
         Product targetProduct = selectProduct();
-        PaymentMethod targetPaymentMethod = selectPaymentMethod();
-
         if (targetProduct != null) {
+            if (targetProduct.getAvailableCount() <= 0) {
+                System.out.println("Error: This product is no longer avialable.");
+                return;
+            }
+            PaymentMethod targetPaymentMethod = selectPaymentMethod();
+
+            // TODO: Apply discount when user have a lot of loyality points.
             this.sales.add(new Sale(costomer, targetProduct, targetProduct.getPrice(), targetPaymentMethod));
+            targetProduct.decrementAvailableCount();
+            costomer.addLoyalityPoints(1);
+            System.out.println(
+                    "Product " + targetProduct.getId() + "was soled to " + costomer.getId() + " successfully.");
         }
     }
 
@@ -649,8 +678,24 @@ public class App {
 
     void createProduct() {
         String productName = readString("Enter a product name: ");
-        double price = readDouble("Enter a price: ");
-        int availableCount = readInt("Available Count: ");
+        double price;
+        while (true) {
+            price = readDouble("Enter a price: ");
+            if (price >= 0.0) {
+                break;
+            } else {
+                System.out.println("Error: Please enter a positive number.");
+            }
+        }
+        int availableCount;
+        while (true) {
+            availableCount = readInt("Available Count: ");
+            if (availableCount >= 0) {
+                break;
+            } else {
+                System.out.println("Error: Please enter a positive number.");
+            }
+        }
 
         // There is only one product type: Vehicle.
         createVehicle(productName, price, availableCount);

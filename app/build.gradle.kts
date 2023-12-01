@@ -1,7 +1,6 @@
 import org.gradle.plugins.ide.eclipse.model.Classpath
 import org.gradle.plugins.ide.eclipse.model.SourceFolder
 
-version = "0.1.0"
 layout.buildDirectory = file("build/gradle")
 
 plugins {
@@ -9,6 +8,7 @@ plugins {
     java
     application
     eclipse
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 repositories {
@@ -62,4 +62,10 @@ tasks.withType<JavaExec>() {
 tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+tasks.shadowJar {
+   archiveBaseName.set("CarShow")
+   archiveVersion.set("0.1.0")
+   archiveClassifier.set("")
 }

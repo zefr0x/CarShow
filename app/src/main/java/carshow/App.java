@@ -40,7 +40,7 @@ public class App {
                 .concat("0. Exit (Reset the system)\n")
                 .concat("Select an option: "));
 
-        int option = this.input.nextInt();
+        int option = Integer.valueOf(this.input.nextLine());
 
         if (option == 0) {
             this.input.close();
@@ -51,7 +51,7 @@ public class App {
             listProducts(1);
         } else if (option == 3) {
             System.out.print("Enter a search term: ");
-            String searchTerm = input.next();
+            String searchTerm = input.nextLine();
 
             List<Product> matches = searchProducts(searchTerm);
 
@@ -69,9 +69,9 @@ public class App {
 
     void loginPage() {
         System.out.print("\nEnter username: ");
-        String userName = this.input.next();
+        String userName = this.input.nextLine();
         System.out.print("Enter password: ");
-        String password = this.input.next();
+        String password = this.input.nextLine();
 
         for (UserAccount user : userAccounts) {
             if (user.getUserName().equals(userName)) {
@@ -185,7 +185,7 @@ public class App {
                     .concat("0. Logout\n")
                     .concat("Select an option: "));
 
-            int option = this.input.nextInt();
+            int option = Integer.valueOf(this.input.nextLine());
 
             if (option == 0) {
                 return;
@@ -202,7 +202,7 @@ public class App {
                     System.out.println("Previos available count: " + targetProduct.getAvailableCount());
 
                     System.out.print("Enter the new count: ");
-                    int newCount = input.nextInt();
+                    int newCount = Integer.valueOf(input.nextLine());
 
                     targetProduct.setAvailableCount(newCount);
                 }
@@ -213,7 +213,7 @@ public class App {
                     System.out.println("Current price: " + targetProduct.getPrice());
 
                     System.out.print("Enter discount percentage: ");
-                    double discountPercentage = input.nextDouble();
+                    double discountPercentage = Double.valueOf(input.nextLine());
 
                     targetProduct.applyDiscount(discountPercentage);
                 }
@@ -269,7 +269,7 @@ public class App {
                 }
             } else if (option == 10) {
                 System.out.print("Enter a search term: ");
-                String searchTerm = input.next();
+                String searchTerm = input.nextLine();
 
                 List<UserAccount> matches = searchUsers(searchTerm);
 
@@ -298,7 +298,7 @@ public class App {
                     .concat("0. Logout\n")
                     .concat("Select an option: "));
 
-            int option = this.input.nextInt();
+            int option = Integer.valueOf(this.input.nextLine());
 
             if (option == 0) {
                 return;
@@ -308,7 +308,7 @@ public class App {
                 saleProduct(salesManAccount);
             } else if (option == 3) {
                 System.out.print("Enter a search term: ");
-                String searchTerm = input.next();
+                String searchTerm = input.nextLine();
 
                 List<CostomerAccount> matches = searchCostomers(searchTerm);
 
@@ -340,7 +340,7 @@ public class App {
                     .concat("0. Logout\n")
                     .concat("Select an option:"));
 
-            int option = this.input.nextInt();
+            int option = Integer.valueOf(this.input.nextLine());
 
             if (option == 0) {
                 return;
@@ -368,19 +368,19 @@ public class App {
         // TODO: Check for user name rules.
         // TODO: Catch errors and return to home page.
         System.out.print("Enter a user name (Must not contain white spaces): ");
-        String userName = input.next();
+        String userName = input.nextLine();
         System.out.print("Enter a password: ");
         String password = readPassword();
         System.out.print("Enter a first name: ");
-        String firstName = input.next();
+        String firstName = input.nextLine();
         System.out.print("Enter a last name: ");
-        String lastName = input.next();
+        String lastName = input.nextLine();
         System.out.print("Enter a branch: ");
-        String branch = input.next();
+        String branch = input.nextLine();
         System.out.print("Enter a salary: ");
-        Double salary = input.nextDouble();
+        Double salary = Double.valueOf(input.nextLine());
         System.out.print("Enter an office number: ");
-        int officeNumber = input.nextInt();
+        int officeNumber = Integer.valueOf(input.nextLine());
 
         AdminAccount newAccount = new AdminAccount(userName, password, firstName, lastName, branch, salary,
                 officeNumber);
@@ -393,21 +393,21 @@ public class App {
         // TODO: Check for user name rules.
         // TODO: Catch errors and return to home page.
         System.out.print("Enter a user name (Must not contain white spaces): ");
-        String userName = input.next();
+        String userName = input.nextLine();
         System.out.print("Enter a password: ");
         String password = readPassword();
         System.out.print("Enter a first name: ");
-        String firstName = input.next();
+        String firstName = input.nextLine();
         System.out.print("Enter a last name: ");
-        String lastName = input.next();
+        String lastName = input.nextLine();
         System.out.print("Enter a branch: ");
-        String branch = input.next();
+        String branch = input.nextLine();
         System.out.print("Enter a salary: ");
-        Double salary = input.nextDouble();
+        Double salary = Double.valueOf(input.nextLine());
         System.out.println("\nProduct types:-\n".concat("- Car\n").concat("- Carvan\n").concat("- Bus"));
         System.out.print("Select a product type: ");
         // TODO: Hnalde error when type not available.
-        ProductType productType = ProductType.valueOf(input.next());
+        ProductType productType = ProductType.valueOf(input.nextLine());
 
         SalesManAccount newSalesMan = new SalesManAccount(userName, password, firstName, lastName, branch, salary,
                 productType);
@@ -420,18 +420,18 @@ public class App {
         // TODO: Check for user name rules.
         // TODO: Catch errors and return to home page.
         System.out.print("Enter a user name (Must not contain white spaces): ");
-        String userName = input.next();
+        String userName = input.nextLine();
         System.out.print("Enter a password: ");
         String password = readPassword();
         System.out.print("Enter a first name: ");
-        String firstName = input.next();
+        String firstName = input.nextLine();
         System.out.print("Enter a last name: ");
-        String lastName = input.next();
+        String lastName = input.nextLine();
         System.out.print("Enter a phone number: ");
-        String phoneNumber = input.next();
+        String phoneNumber = input.nextLine();
         System.out.print("Enter an email address: ");
         // TODO: Check for valid email address.
-        String emailAddress = input.next();
+        String emailAddress = input.nextLine();
 
         CostomerAccount newCostomer = new CostomerAccount(userName, password, firstName, lastName, phoneNumber,
                 emailAddress);
@@ -445,7 +445,7 @@ public class App {
         if (console != null) {
             return System.console().readPassword().toString();
         } else {
-            return this.input.next();
+            return this.input.nextLine();
         }
     }
 
@@ -500,7 +500,7 @@ public class App {
         System.out.print("Select a payment method: ");
 
         // TODO: Handle error.
-        return PaymentMethod.valueOf(input.next());
+        return PaymentMethod.valueOf(input.nextLine());
     }
 
     Product selectProduct() {
@@ -512,7 +512,7 @@ public class App {
 
         while (true) {
             System.out.print("Select a product by ID: ");
-            String productID = input.next();
+            String productID = input.nextLine();
 
             for (Product product : this.products) {
                 if (product.getId().equals(productID)) {
@@ -539,7 +539,7 @@ public class App {
 
         while (true) {
             System.out.print("Select a costomer ID: ");
-            String id = input.next();
+            String id = input.nextLine();
             for (UserAccount user : this.userAccounts) {
                 if (user instanceof CostomerAccount) {
                     CostomerAccount costomer = (CostomerAccount) user;
@@ -554,11 +554,11 @@ public class App {
 
     void createProduct() {
         System.out.print("Enter a product name: ");
-        String productName = input.next();
+        String productName = input.nextLine();
         System.out.print("Enter a price: ");
-        double price = input.nextDouble();
+        double price = Double.valueOf(input.nextLine());
         System.out.print("Available Count: ");
-        int availableCount = input.nextInt();
+        int availableCount = Integer.valueOf(input.nextLine());
 
         // There is only one product type: Vehicle.
         createVehicle(productName, price, availableCount);
@@ -568,22 +568,22 @@ public class App {
         System.out.println("\nProduct types:-\n".concat("- Car\n").concat("- Carvan\n").concat("- Bus"));
         System.out.print("Select a product type: ");
         // TODO: Hnalde error when type not available.
-        ProductType productType = ProductType.valueOf(input.next());
+        ProductType productType = ProductType.valueOf(input.nextLine());
 
         System.out.print("Year: ");
-        int year = input.nextInt();
+        int year = Integer.valueOf(input.nextLine());
         System.out.print("Model: ");
-        String model = input.next();
+        String model = input.nextLine();
         System.out.print("VIN: ");
-        String vehicleId = input.next();
+        String vehicleId = input.nextLine();
         System.out.print("Color: ");
-        String color = input.next();
+        String color = input.nextLine();
         System.out.print("Manufacturer: ");
-        String manufacturer = input.next();
+        String manufacturer = input.nextLine();
         // FIX: Show options.
         System.out.print("Fuel Type: ");
         // TODO: Hnalde error when type not available.
-        FuelType fuelType = FuelType.valueOf(input.next());
+        FuelType fuelType = FuelType.valueOf(input.nextLine());
 
         switch (productType) {
             case Car:
@@ -602,13 +602,13 @@ public class App {
             String color, String manufacturer, FuelType fuelType) {
         // TODO: Handle InputMismatchException.
         System.out.print("Has Sencsors (true/false): ");
-        boolean hasSencsors = input.nextBoolean();
+        boolean hasSencsors = Boolean.valueOf(input.nextLine());
         System.out.print("Has Cameras (true/false): ");
-        boolean hasCameras = input.nextBoolean();
+        boolean hasCameras = Boolean.valueOf(input.nextLine());
         System.out.print("Has BlindSpot Radar (true/false): ");
-        boolean hasBlindSpotRadar = input.nextBoolean();
+        boolean hasBlindSpotRadar = Boolean.valueOf(input.nextLine());
         System.out.print("Shifter Type: ");
-        String shifterType = input.next();
+        String shifterType = input.nextLine();
 
         Car newCar = new Car(carName, price, availableCount, year, model, vehicleId, color, manufacturer, fuelType,
                 hasSencsors, hasCameras, hasBlindSpotRadar, shifterType);
@@ -620,14 +620,14 @@ public class App {
     void createCarvan(String carvanName, double price, int availableCount, int year, String model, String vehicleId,
             String color, String manufacturer, FuelType fuelType) {
         System.out.print("Number of rooms: ");
-        int numberOfRooms = input.nextInt();
+        int numberOfRooms = Integer.valueOf(input.nextLine());
         // TODO: Handle InputMismatchException.
         System.out.print("Has Kitchen (true/false): ");
-        boolean hasKitchen = input.nextBoolean();
+        boolean hasKitchen = Boolean.valueOf(input.nextLine());
         System.out.print("Has Bathroom (true/false): ");
-        boolean hasBathroom = input.nextBoolean();
+        boolean hasBathroom = Boolean.valueOf(input.nextLine());
         System.out.print("Water Capacity: ");
-        double waterCapacity = input.nextDouble();
+        double waterCapacity = Double.valueOf(input.nextLine());
 
         Carvan newCarvan = new Carvan(carvanName, price, availableCount, year, model, vehicleId, color, manufacturer,
                 numberOfRooms, hasKitchen, hasBathroom, waterCapacity, fuelType);
@@ -639,13 +639,13 @@ public class App {
     void createBus(String busName, double price, int availableCount, int year, String model, String vehicleId,
             String color, String manufacturer, FuelType fuelType) {
         System.out.print("Passenger Capacity: ");
-        int passengerCapacity = input.nextInt();
+        int passengerCapacity = Integer.valueOf(input.nextLine());
         System.out.print("Is Double Decker (true/false): ");
-        boolean isDoubleDecker = input.nextBoolean();
+        boolean isDoubleDecker = Boolean.valueOf(input.nextLine());
         System.out.print("Has WiFi (true/false): ");
-        boolean hasWifi = input.nextBoolean();
+        boolean hasWifi = Boolean.valueOf(input.nextLine());
         System.out.print("Has Bathroom (true/false): ");
-        boolean hasBathroom = input.nextBoolean();
+        boolean hasBathroom = Boolean.valueOf(input.nextLine());
 
         Bus newBus = new Bus(busName, price, availableCount, year, model, vehicleId, color, manufacturer,
                 passengerCapacity, isDoubleDecker, hasWifi, hasBathroom, fuelType);

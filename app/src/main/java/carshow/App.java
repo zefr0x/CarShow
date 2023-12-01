@@ -217,6 +217,7 @@ public class App {
                         double discountPercentage = readDouble("Enter discount percentage: ");
                         try {
                             targetProduct.applyDiscount(discountPercentage);
+                            System.out.println("New price: " + targetProduct.getPrice());
                             break;
                         } catch (Exception e) {
                             System.out.println(e);

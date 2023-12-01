@@ -79,7 +79,7 @@ class Product {
 
     public void applyDiscount(double discountPercentage) {
         if (discountPercentage <= 100 || discountPercentage >= 0) {
-            this.price = this.price * (100 - discountPercentage);
+            this.price = this.price * (100 - discountPercentage) / 100;
         } else {
             throw new IllegalArgumentException("Discount percentage can only be between 0 and 100");
         }

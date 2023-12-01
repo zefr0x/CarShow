@@ -88,12 +88,12 @@ public class App {
             }
         }
 
-        System.out.println("The username you enterd is not available.");
+        System.out.println("The username you entered is not available.");
     }
 
     void listProducts() {
         if (this.products.isEmpty()) {
-            System.out.println("Error: No products are sotred in the system.");
+            System.out.println("Error: No products are sorted in the system.");
             return;
         } else {
             for (Product product : this.products) {
@@ -104,7 +104,7 @@ public class App {
 
     void listProducts(int minAvailableCount) {
         if (this.products.isEmpty()) {
-            System.out.println("Error: No products are sotred in the system.");
+            System.out.println("Error: No products are sorted in the system.");
             return;
         } else {
             for (Product product : this.products) {
@@ -173,7 +173,7 @@ public class App {
                     .concat("2. Create new sales man account\n")
                     .concat("3. Add new product\n")
                     .concat("4. Update product's available count\n")
-                    .concat("5. Applay a disscount on a product\n")
+                    .concat("5. Apply a discount on a product\n")
                     .concat("6. Query total sales report\n")
                     .concat("7. Query available products report\n")
                     .concat("8. Query system users report\n")
@@ -197,7 +197,7 @@ public class App {
                 Product targetProduct = selectProduct();
 
                 if (targetProduct != null) {
-                    System.out.println("Previos available count: " + targetProduct.getAvailableCount());
+                    System.out.println("Previous available count: " + targetProduct.getAvailableCount());
 
                     System.out.print("Enter the new count: ");
                     int newCount = Integer.valueOf(input.nextLine());
@@ -260,7 +260,7 @@ public class App {
                 System.out.println("Total system users count: " + this.userAccounts.size());
                 System.out.println("Admins count: " + adminsCount);
                 System.out.println("Sales men count: " + salesmenCount);
-                System.out.println("Cosomers count: " + costomersCount);
+                System.out.println("Customer count: " + costomersCount);
             } else if (option == 9) {
                 for (UserAccount user : this.userAccounts) {
                     System.out.println(user);
@@ -288,9 +288,9 @@ public class App {
 
     void salesManPage(SalesManAccount salesManAccount) {
         while (true) {
-            System.out.print("\n1. Create new costomer account\n"
-                    .concat("2. Sale a product to a costomer\n")
-                    .concat("3. Search in costomers\n")
+            System.out.print("\n1. Create new Customer account\n"
+                    .concat("2. Sale a product to a Customer\n")
+                    .concat("3. Search in Customer\n")
                     .concat("4. Change password\n")
                     .concat("5. Delete my account\n")
                     .concat("0. Logout\n")
@@ -315,13 +315,13 @@ public class App {
                 }
 
                 if (matches.isEmpty()) {
-                    System.out.println("Your search term doesn't match any costomer, please use another term.");
+                    System.out.println("Your search term doesn't match any Customer, please use another term.");
                 }
             } else if (option == 4) {
                 changeUserPassword(salesManAccount);
             } else if (option == 5) {
                 deleteUserAccount(salesManAccount);
-                System.out.println("You was loged out from your account.");
+                System.out.println("You were logged out from your account.");
                 return;
             } else {
                 System.out.println("Error: The selected option is invalid, please selection another option.");
@@ -332,7 +332,7 @@ public class App {
     void costomerPage(CostomerAccount costomerAccount) {
         while (true) {
             System.out.print("\n1. Select and pay a product (self payment)\n"
-                    .concat("2. Query previos payments")
+                    .concat("2. Query previous payments")
                     .concat("3. Change password\n")
                     .concat("4. Delete my account\n")
                     .concat("0. Logout\n")
@@ -354,7 +354,7 @@ public class App {
                 changeUserPassword(costomerAccount);
             } else if (option == 4) {
                 deleteUserAccount(costomerAccount);
-                System.out.println("Your was loged out from your account.");
+                System.out.println("Your was logged out from your account.");
                 return;
             } else {
                 System.out.println("Error: The selected option is invalid, please selection another option.");
@@ -458,7 +458,7 @@ public class App {
                 "Warning: Your account will be deleted, but your data associated with sales will stay in the system.");
         this.userAccounts.remove(user);
         System.out.println(
-                "Account " + user.getId() + " with userName: " + user.getUserName() + " was deleted sucessfully.");
+                "Account " + user.getId() + " with userName: " + user.getUserName() + " was deleted successfully.");
     }
 
     void saleProduct(SalesManAccount salesMan) {
@@ -527,14 +527,14 @@ public class App {
             }
         }
         if (empty) {
-            System.out.println("Error: There is no costomer in the system, pleace create one before.");
+            System.out.println("Error: There is no Customer in the system, please create one before.");
             return null;
         }
 
         listCostomers();
 
         while (true) {
-            System.out.print("Select a costomer ID: ");
+            System.out.print("Select a Customer ID: ");
             String id = input.nextLine();
             for (UserAccount user : this.userAccounts) {
                 if (user instanceof CostomerAccount) {
@@ -544,7 +544,7 @@ public class App {
                     }
                 }
             }
-            System.out.println("Error No costomer has this ID, please try again.");
+            System.out.println("Error No Customer has this ID, please try again.");
         }
     }
 
@@ -593,7 +593,7 @@ public class App {
 
     void createCar(String carName, double price, int availableCount, int year, String model, String vehicleId,
             String color, String manufacturer, FuelType fuelType) {
-        System.out.print("Has Sencsors (true/false): ");
+        System.out.print("Has Sensors (true/false): ");
         boolean hasSencsors = Boolean.valueOf(input.nextLine());
         System.out.print("Has Cameras (true/false): ");
         boolean hasCameras = Boolean.valueOf(input.nextLine());

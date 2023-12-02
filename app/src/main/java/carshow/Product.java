@@ -193,7 +193,7 @@ class Car extends Vehicle implements Searchable {
                 || this.getColor().toLowerCase().contains(filterTerm)
                 || this.getManufacturer().toLowerCase().contains(filterTerm)
                 || this.getFuelType().toString().toLowerCase().contains(filterTerm)
-                || this.shifterType.contains(filterTerm)
+                || this.shifterType.toLowerCase().contains(filterTerm)
                 || (filterTerm.contains("sencsor") && this.hasSencsors)
                 || (filterTerm.contains("camera") && this.hasSencsors)
                 || (filterTerm.contains("blind") && this.hasBlindSpotRadar)) {

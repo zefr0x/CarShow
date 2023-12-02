@@ -107,10 +107,10 @@ class AdminAccount extends UserAccount implements Searchable {
     @Override
     public boolean passSearchTerm(String filterTerm) {
         if (this.getId().equals(filterTerm)
-                || this.getUserName().contains(filterTerm)
-                || this.getFirstName().contains(filterTerm)
-                || this.getLastName().contains(filterTerm)
-                || this.branch.contains(filterTerm)
+                || this.getUserName().toLowerCase().contains(filterTerm)
+                || this.getFirstName().toLowerCase().contains(filterTerm)
+                || this.getLastName().toLowerCase().contains(filterTerm)
+                || this.branch.toLowerCase().contains(filterTerm)
                 || Integer.toString(this.officeNumber).equals(filterTerm)) {
             return true;
         }
@@ -165,10 +165,10 @@ class SalesManAccount extends UserAccount implements Searchable {
     @Override
     public boolean passSearchTerm(String filterTerm) {
         if (this.getId().equals(filterTerm)
-                || this.getUserName().contains(filterTerm)
-                || this.getFirstName().contains(filterTerm)
-                || this.getLastName().contains(filterTerm)
-                || this.branch.contains(filterTerm)
+                || this.getUserName().toLowerCase().contains(filterTerm)
+                || this.getFirstName().toLowerCase().contains(filterTerm)
+                || this.getLastName().toLowerCase().contains(filterTerm)
+                || this.branch.toLowerCase().contains(filterTerm)
                 || productType.toString().toLowerCase().contains(filterTerm)) {
             return true;
         }
@@ -223,9 +223,9 @@ class CostomerAccount extends UserAccount implements Searchable {
     @Override
     public boolean passSearchTerm(String filterTerm) {
         if (this.getId().equals(filterTerm)
-                || this.getUserName().contains(filterTerm)
-                || this.getFirstName().contains(filterTerm)
-                || this.getLastName().contains(filterTerm)
+                || this.getUserName().toLowerCase().contains(filterTerm)
+                || this.getFirstName().toLowerCase().contains(filterTerm)
+                || this.getLastName().toLowerCase().contains(filterTerm)
                 || this.emailAddress.contains(filterTerm)) {
             return true;
         }

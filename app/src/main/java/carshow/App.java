@@ -451,13 +451,15 @@ public class App {
     }
 
     String readPassword(String prompt) {
-        Console console = System.console();
-        if (console != null) {
-            System.out.print(prompt);
-            return System.console().readPassword().toString();
-        } else {
-            return readString(prompt);
-        }
+        // TODO: Hide input password from terminal.
+        // Console console = System.console();
+        // if (console != null) {
+        //     System.out.print(prompt);
+        //     return System.console().readPassword().toString();
+        // } else {
+        //     return readString(prompt);
+        // }
+        return readString(prompt);
     }
 
     String readPhoneNumber(String prompt) {

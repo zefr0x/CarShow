@@ -1,3 +1,5 @@
+> **Warning** : This repository/project is a univertiy project and no longer maintained. If you are interested in the project, it's free software under the GPL-3.0 license.
+
 The `gradle` build tool is used to manage the application.
 
 To run the application from your IDE, configure the `app:run` gradle task in your run button.
